@@ -16,6 +16,6 @@
 
 	- use netcat (nc) to pipe commands to pc use
 
-	- apache2 autocustomize setup
+	- apache2 autocustomize setup.
 
 	- update to last version of stable release automatically
