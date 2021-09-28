@@ -1,6 +1,6 @@
 - SPEC IDEAS
 	- Bulk rename function
-	- Change Ubuntu user's bar position (enhanced for user) `gsettings set com.canonical.Unity.Launcher launcher-position Bottom` (Left to revert to original)
+	- Change Ubuntu user's bar position (enhanced for user) `gsettings set org.gnome.shell.extensions.dash-to-dock dock-position RIGHT` (Left to revert to original)
 	- Change Ubuntu to dark theme (enhanced for user) `gsettings set org.gnome.desktop.interface gtk-theme "Yaru-dark"` (Consider to change it back to the previous in uninstall)
 	- Crontab function
 	- Add repository function
