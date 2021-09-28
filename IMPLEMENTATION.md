@@ -19,3 +19,5 @@
 	- apache2 autocustomize setup.
 
 	- update to last version of stable release automatically
+
+	- python 3
