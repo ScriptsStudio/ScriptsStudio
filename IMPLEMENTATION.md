@@ -1,5 +1,5 @@
 - LINUX SPEC IDEAS
-	- [x] Bulk rename function ren()
+	- [~] Bulk rename function re()
 	- Add/Remove Crontab function
 	- [x] Add/Remove repository function
 	- [~] Desktop Ubuntu customizations
