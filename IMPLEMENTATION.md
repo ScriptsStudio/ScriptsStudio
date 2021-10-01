@@ -13,5 +13,7 @@
 
 	- update to last version of stable releases of applications automatically and have the latest url available from the features from its official page if possible.
 
+- EXTRA
+	- Function to add virtual box guest additions in case the system is a virtual machine
 
 

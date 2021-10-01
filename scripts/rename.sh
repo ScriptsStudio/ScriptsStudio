@@ -4,7 +4,9 @@ re() {
     if [ $(($# % 2)) == 0 ]; then
         for i in "$@"; do
             if [ "${i: -1}" == "*" ]; then
-                echo multiple!!!
+                echo "multiple!!!"
+                echo "$i"
+                echo "mult mult mult"
                 for j in $(ls -1 *$i*); do
                     echo "$j"
                     echo perform substitution
