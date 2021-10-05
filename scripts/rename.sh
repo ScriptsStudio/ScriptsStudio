@@ -13,8 +13,10 @@ re() {
                     #for i in *.JPG;  do echo ${i%%.JPG}.jpg;  done
                 done
                 shift
+                shift
             else
                 mv "$1" "$2" 2>/dev/null
+                shift
                 shift
             fi
         done

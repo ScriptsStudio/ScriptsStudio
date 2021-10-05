@@ -11,9 +11,5 @@
 
 	- Analyze network hosts to know IP's and ports from devices and secure its ssh connections bestly as possible
 
-	- update to last version of stable releases of applications automatically and have the latest url available from the features from its official page if possible.
-
-- EXTRA
-	- Function to add virtual box guest additions in case the system is a virtual machine
-
+	- update to last version of an updated stable release of applications automatically and update the latest url available from the features from its official page if possible locally. `(We should check for STABLE string and match and update the highest version nearest it)`
 
