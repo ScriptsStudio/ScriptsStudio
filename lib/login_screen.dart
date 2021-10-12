@@ -126,9 +126,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.only(left: 20.0,top: 20.0,right: 20.0),
                           child: Text('Automatic connection',
                               style: Theme.of(context).textTheme.subtitle1),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: TextButton(onPressed: null, child: Text("Can't find your device? Enter it manually",style: TextStyle(color: Colors.redAccent),)),
                         ),
                         Expanded(
                           flex: 2,
