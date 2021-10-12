@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:scriptstudio/automatic_connection_screen.dart';
 import 'languajes.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -74,7 +75,33 @@ class MyApp extends StatelessWidget {
               fontSize: 16.0, letterSpacing: 0.1, fontStyle: FontStyle.italic),
         ),
       ),
-      home: AutomaticConnectionScreen(),
+      home: Splash(),
     );
+  }
+}
+class Splash extends StatefulWidget {
+  @override
+  State<Splash> createState() => _SplashState();
+}
+
+class _SplashState extends State<Splash> {
+  @override
+  Widget build(BuildContext context) {
+    return SplashScreen(
+      seconds: 16,
+      navigateAfterSeconds: new AutomaticConnectionScreen(),
+      title: new Text('ScriptsStudio',style: Theme.of(context).textTheme.headline4,),
+      image: null,
+      loadingText: Text("Loading...", style: Theme.of(context).textTheme.button,),
+      photoSize: 50.0,
+      loaderColor: Colors.white,
+      backgroundColor: Colors.red,
+    );
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    scanNetwork();
   }
 }

@@ -30,51 +30,47 @@ late List hostnameList = [
   '2',
   '1'
 ];
+Future<void> scanNetwork() async {
+  await (NetworkInfo().getWifiIP()).then(
+    (ip) async {
+      final String subnet = ip!.substring(0, ip.lastIndexOf('.'));
+      const port = 22;
+      for (var i = 0; i < 256; i++) {
+        String ip = '$subnet.$i';
+        await Socket.connect(ip, port, timeout: Duration(milliseconds: 50))
+            .then((socket) async {
+          await InternetAddress(socket.address.address).reverse().then((value) {
+            ipsList.add(socket.address.address);
+            hostnameList.add(value.host);
+            print(socket.address.address);
+            print(value.host);
+          }).catchError((error) {
+            print(socket.address.address);
+            print('catchError InternetAddress: $error');
+          });
+          socket.destroy();
+        }).catchError((error) {
+          print('catchError Socket.connect' + error.toString());
+        });
+      }
+    },
+  );
+}
 
 class AutomaticConnectionScreen extends StatefulWidget {
   const AutomaticConnectionScreen({Key? key}) : super(key: key);
 
   @override
-  _AutomaticConnectionScreenState createState() => _AutomaticConnectionScreenState();
+  _AutomaticConnectionScreenState createState() =>
+      _AutomaticConnectionScreenState();
 }
 
 class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    scanNetwork();
+    //scanNetwork();
     super.initState();
-  }
-
-  Future<void> scanNetwork() async {
-    await (NetworkInfo().getWifiIP()).then(
-      (ip) async {
-        final String subnet = ip!.substring(0, ip.lastIndexOf('.'));
-        const port = 22;
-        for (var i = 0; i < 256; i++) {
-          String ip = '$subnet.$i';
-          await Socket.connect(ip, port, timeout: Duration(milliseconds: 50))
-              .then((socket) async {
-            await InternetAddress(socket.address.address)
-                .reverse()
-                .then((value) {
-              setState(() {
-                ipsList.add(socket.address.address);
-                hostnameList.add(value.host);
-                print(socket.address.address);
-                print(value.host);
-              });
-            }).catchError((error) {
-              print(socket.address.address);
-              print('catchError InternetAddress: $error');
-            });
-            socket.destroy();
-          }).catchError((error) {
-            print('catchError Socket.connect' + error.toString());
-          });
-        }
-      },
-    );
   }
 
   @override
@@ -126,13 +122,19 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 20.0,top: 20.0,right: 20.0),
+                          padding: const EdgeInsets.only(
+                              left: 20.0, top: 20.0, right: 20.0),
                           child: Text('Automatic connection',
                               style: Theme.of(context).textTheme.subtitle1),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
-                          child: TextButton(onPressed: null, child: Text("Can't find your device? Enter it manually",style: TextStyle(color: Colors.redAccent),)),
+                          child: TextButton(
+                              onPressed: null,
+                              child: Text(
+                                "Can't find your device? Enter it manually",
+                                style: TextStyle(color: Colors.redAccent),
+                              )),
                         ),
                         Expanded(
                           flex: 2,
@@ -142,7 +144,7 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                   crossAxisCount: 3,
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
-                                  crossAxisSpacing:2,
+                                  crossAxisSpacing: 2,
                                   mainAxisSpacing: 2,
                                   children:
                                       List.generate(ipsList.length, (index) {
@@ -156,8 +158,10 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                         shadowColor: Colors.black,
                                         color: Colors.white,
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Expanded(
                                               child: Padding(
