@@ -31,14 +31,14 @@ late List hostnameList = [
   '1'
 ];
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class AutomaticConnectionScreen extends StatefulWidget {
+  const AutomaticConnectionScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _AutomaticConnectionScreenState createState() => _AutomaticConnectionScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
   @override
   void initState() {
     // TODO: implement initState
