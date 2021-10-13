@@ -7,6 +7,11 @@ import sys
 def initialize_package_manager_command():
     os_name = platform.system()
     package_manager_command=""
+    if subprocess.check_output(['uname', '-o']).strip() == b'Android':
+        # This expects a path to an .apk file
+        package_manager_command="pm install "
+        return package_manager_command
+        
     if os_name == "Linux":
         # This value might vary between flatpak, snapd, apt-get or Linux-Auto-Customizer
         package_manager_command="apt-get install -y "
@@ -14,9 +19,6 @@ def initialize_package_manager_command():
         package_manager_command="winget install "
     elif os_name == "Darwin":
         package_manager_command="brew install "
-    elif subprocess.check_output(['uname', '-o']).strip() == b'Android':
-        # This expects a path to an .apk file
-        package_manager_command="pm install "
     return package_manager_command
 
 
