@@ -6,6 +6,7 @@ import sys
 
 def initialize_package_manager_command():
     os_name = platform.system()
+    package_manager_command=""
     if os_name == "Linux":
         # This value might vary between flatpak, snapd, apt-get or Linux-Auto-Customizer
         package_manager_command="sudo apt-get install -y "
@@ -20,6 +21,11 @@ if __name__ == "__main__":
     argument_list = sys.argv[1:]
     for arg in argument_list:
         try:
+            # Trim '-' and '--' before package name
+            if arg[:1] == "-":
+                arg = arg[1:]
+            if arg[:1] == "-":
+                arg = arg[1:]
             subprocess.run(initialize_package_manager_command() + arg, shell=True)
         except:
             print("ERROR: Could not launch installation")
