@@ -8,7 +8,7 @@ def initialize_package_manager_command():
     os_name = platform.system()
     package_manager_command=""
     if subprocess.check_output(['uname', '-o']).strip() == b'Android':
-        # This expects a path to an .apk file
+        # This expects a path to an .apk file and root privileges
         package_manager_command="pm install "
         return package_manager_command
         
