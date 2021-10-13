@@ -9,7 +9,7 @@ def initialize_package_manager_command():
     package_manager_command=""
     if os_name == "Linux":
         # This value might vary between flatpak, snapd, apt-get or Linux-Auto-Customizer
-        package_manager_command="sudo apt-get install -y "
+        package_manager_command="apt-get install -y "
     elif os_name == "Windows":
         package_manager_command="winget install "
     elif os_name == "Darwin":
