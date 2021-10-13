@@ -8,12 +8,13 @@ def initialize_package_manager_command():
     os_name = platform.system()
     package_manager_command=""
     if subprocess.check_output(['uname', '-o']).strip() == b'Android':
-        # This expects a path to an .apk file and root privileges
+        # This expects a path to an .apk file and root (sudo) privileges
         package_manager_command="pm install "
         return package_manager_command
         
     if os_name == "Linux":
         # This value might vary between flatpak, snapd, apt-get or Linux-Auto-Customizer
+        # For the moment expects a valid app name and root (sudo) privileges
         package_manager_command="apt-get install -y "
     elif os_name == "Windows":
         package_manager_command="winget install "
