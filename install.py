@@ -19,7 +19,7 @@ def initialize_package_manager_command():
             pacman_names = ["apt-get install -y ", "customizer-install ", "flatpak install ", "snap install "]
             # This value might vary between flatpak, snapd, apt-get or Linux-Auto-Customizer
             # For the moment expects a valid app name and may need root (sudo) privileges
-            package_manager_command = pacman_names[1]
+            package_manager_command = pacman_names[0]
         elif opsy_name == 'Windows ':
             print(opsy_name)
             package_manager_command = "winget install "
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         quer = initialize_package_manager_command()
         for arg in argument_list:
             quer += arg + " "
-
+            
         subprocess.run(quer, shell=True)
 
     except:
