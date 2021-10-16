@@ -1,64 +1,12 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:network_info_plus/network_info_plus.dart';
+import 'package:scriptstudio/devicesClass.dart';
 
-late List ipsList = [
-  '192.168.1.2',
-  '192.168.1.3',
-  '192.168.1.4',
-  '192.168.1.5',
-  '192.168.1.6',
-  '192.168.1.7',
-  '192.168.1.8',
-  '192.168.1.9',
-  '192.168.1.10'
-];
-late List hostnameList = [
-  'PC de David',
-  'MacBook',
-  'Windows-SSD',
-  'Windows 10',
-  'Ubuntu-20',
-  'Arch Linux',
-  'Mac Mini',
-  'Windows 11',
-  'MSI-Axel',
-  '1',
-  '1',
-  '2',
-  '1'
-];
-Future<void> scanNetwork() async {
-  await (NetworkInfo().getWifiIP()).then(
-    (ip) async {
-      final String subnet = ip!.substring(0, ip.lastIndexOf('.'));
-      const port = 22;
-      for (var i = 0; i < 256; i++) {
-        String ip = '$subnet.$i';
-        await Socket.connect(ip, port, timeout: Duration(milliseconds: 50))
-            .then((socket) async {
-          await InternetAddress(socket.address.address).reverse().then((value) {
-            ipsList.add(socket.address.address);
-            hostnameList.add(value.host);
-            print(socket.address.address);
-            print(value.host);
-          }).catchError((error) {
-            print(socket.address.address);
-            print('catchError InternetAddress: $error');
-          });
-          socket.destroy();
-        }).catchError((error) {
-          print('catchError Socket.connect' + error.toString());
-        });
-      }
-    },
-  );
-}
+import 'main.dart';
 
 class AutomaticConnectionScreen extends StatefulWidget {
-  const AutomaticConnectionScreen({Key? key}) : super(key: key);
+  const AutomaticConnectionScreen({Key key}) : super(key: key);
 
   @override
   _AutomaticConnectionScreenState createState() =>
@@ -138,58 +86,50 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                         ),
                         Expanded(
                           flex: 2,
-                          child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: GridView.count(
-                                  crossAxisCount: 3,
-                                  scrollDirection: Axis.vertical,
-                                  shrinkWrap: true,
-                                  crossAxisSpacing: 2,
-                                  mainAxisSpacing: 2,
-                                  children:
-                                      List.generate(ipsList.length, (index) {
-                                    return Card(
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(color: Colors.black),
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
-                                        ),
-                                        elevation: 6,
-                                        shadowColor: Colors.black,
-                                        color: Colors.white,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
-                                                child: CircleAvatar(
-                                                  child: Icon(
-                                                    Icons.computer,
-                                                    color: Colors.white,
-                                                  ),
-                                                  backgroundColor:
-                                                      Colors.redAccent,
-                                                ),
+                          child: GridView.count(
+                              crossAxisCount: 3,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              children: List.generate(ipsList.length, (index) {
+                                return Card(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    elevation: 6,
+                                    shadowColor: Colors.black,
+                                    color: Colors.white,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 8.0),
+                                            child: CircleAvatar(
+                                              child: Icon(
+                                                Icons.computer,
+                                                color: Colors.white,
                                               ),
+                                              backgroundColor: Colors.redAccent,
                                             ),
-                                            ListTile(
-                                              title: Text(hostnameList[index],
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1),
-                                              subtitle: Text(ipsList[index],
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText2),
-                                            ),
-                                          ],
-                                        ));
-                                  }))),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          title: Text(hostnameList[index],
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .caption),
+                                          subtitle: Text(ipsList[index],
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .caption),
+                                        ),
+                                      ],
+                                    ));
+                              })),
                         ),
                       ],
                     ),

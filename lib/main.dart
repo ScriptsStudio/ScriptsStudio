@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:scriptstudio/automatic_connection_screen.dart';
+import 'package:scriptstudio/devicesClass.dart';
 import 'languajes.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:network_info_plus/network_info_plus.dart';
+import 'automatic_connection_screen.dart';
+import 'package:libdsm/libdsm.dart';
+import 'dart:convert';
+import 'dart:io';
 
+List ipsList = [];
+List hostnameList = [];
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -79,6 +87,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class Splash extends StatefulWidget {
   @override
   State<Splash> createState() => _SplashState();
@@ -88,20 +97,87 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return SplashScreen(
-      seconds: 16,
+      seconds: 5,
       navigateAfterSeconds: new AutomaticConnectionScreen(),
-      title: new Text('ScriptsStudio',style: Theme.of(context).textTheme.headline4,),
+      title: new Text(
+        'ScriptsStudio',
+        style: Theme.of(context).textTheme.headline4,
+      ),
       image: null,
-      loadingText: Text("Loading...", style: Theme.of(context).textTheme.button,),
+      loadingText: Text(
+        "Loading...",
+        style: Theme.of(context).textTheme.button,
+      ),
       photoSize: 50.0,
       loaderColor: Colors.white,
       backgroundColor: Colors.red,
     );
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    scanNetwork();
+    //scanNetwork();
+    _create();
+  }
+
+  List ipsListDraft = [];
+  List hostnameListDraft = [];
+  String _platformVersion = 'Unknown';
+  Dsm dsm = Dsm();
+
+  void _create() async {
+    await dsm.init();
+    _startDiscovery();
+  }
+
+  void _startDiscovery() async {
+    dsm.onDiscoveryChanged.listen(_discoveryListener);
+    await dsm.startDiscovery();
+  }
+
+  void _discoveryListener(String json) async {
+    print('Discovery : $json');
+    Device device = Device.fromJson(jsonDecode(cleanerJSON(json)));
+    print(device.name);
+    hostnameListDraft.add(device.name);
+    print(device.address);
+    ipsListDraft.add(device.address);
+    confirmSSHOn();
+  }
+
+  void _stopDiscovery() async {
+    dsm.onDiscoveryChanged.listen(null);
+    await dsm.stopDiscovery();
+  }
+
+  String cleanerJSON(String json) {
+    String cleanJson = json.substring(10);
+    if (cleanJson != null && cleanJson.length >= 5) {
+      cleanJson = cleanJson.substring(0, cleanJson.length - 10);
+    }
+    return cleanJson;
+  }
+
+  Future<void> confirmSSHOn() async {
+    const port = 22;
+    for (var i = 0; i < ipsListDraft.length; i++) {
+      String ip = ipsListDraft[i];
+      await Socket.connect(ip, port, timeout: Duration(milliseconds: 50))
+          .then((socket) async {
+        //ipsList.add(ipsListDraft[i]);
+        //hostnameList.add(ipsListDraft[i]);
+        socket.destroy();
+      }).catchError((error) {
+        if (ipsList.contains(ipsListDraft[i])==false) {
+          ipsList.add(ipsListDraft[i]);
+          hostnameList.add(hostnameListDraft[i]);
+        }
+
+        print('catchError Socket.connect' + error.toString());
+      });
+    }
+    _stopDiscovery();
   }
 }
