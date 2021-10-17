@@ -14,22 +14,19 @@ def main():
     final_query = []
     # This expects a path to an .apk file and root (sudo) privileges assuming rooted android device
     if opsy_name == "Linux":
-        pacman_names = ["apt-get install -y ", "customizer-install ", "flatpak install ", "snap install "]
+        pacman_names = ["apt-get install -y ", "customizer-install ", "flatpak install ", "zypper --non-interactive install -y ", "dnf install -y ", "urpme ", "slackpkg install ", "slapt-get --install ", "netpkg ", "equo install ", "pacman -S ", "eopkg install ", "apk add ", "smart install ", "pkcon install ", "emerge ", "lin ", "cast ", "nix-env -i ", "xbps-install ", "snap install ", "pkg_add -r ", "pkg install " ]
         # This value might vary between flatpak, snapd, apt-get or Linux-Auto-Customizer
         # For the moment expects a valid app name and may need root (sudo) privileges
-        package_manager_command = pacman_names[1]
+        package_manager_command = pacman_names[0]
     elif opsy_name == "Windows":
         package_manager_command = "winget install --accept-package-agreements --accept-source-agreements -h -q "
         winget_allowance_command = True
     elif opsy_name == "Darwin":
         package_manager_command = "brew install "
     else:
-        '''
-        print("hola")
         if subprocess.run("uname -o").strip() == 'Android':
             package_manager_command = "pm install "
-            '''
-        pass
+
     for i in range(len(argument_list)):
         final_query.append(argument_list[i])
         quer += " " + argument_list[i]
