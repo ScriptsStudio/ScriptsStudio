@@ -4,7 +4,6 @@ import 'package:scriptstudio/automatic_connection_screen.dart';
 import 'package:scriptstudio/devicesClass.dart';
 import 'languajes.dart';
 import 'package:splashscreen/splashscreen.dart';
-import 'package:network_info_plus/network_info_plus.dart';
 import 'automatic_connection_screen.dart';
 import 'package:libdsm/libdsm.dart';
 import 'dart:convert';
@@ -124,7 +123,6 @@ class _SplashState extends State<Splash> {
 
   List ipsListDraft = [];
   List hostnameListDraft = [];
-  String _platformVersion = 'Unknown';
   Dsm dsm = Dsm();
 
   void _create() async {
@@ -166,15 +164,15 @@ class _SplashState extends State<Splash> {
       String ip = ipsListDraft[i];
       await Socket.connect(ip, port, timeout: Duration(milliseconds: 50))
           .then((socket) async {
-        //ipsList.add(ipsListDraft[i]);
-        //hostnameList.add(ipsListDraft[i]);
+            setState(() {
+              if (ipsList.contains(ipsListDraft[i]) == false) {
+                ipsList.add(ipsListDraft[i]);
+                hostnameList.add(hostnameListDraft[i]);
+              }
+            });
+
         socket.destroy();
       }).catchError((error) {
-        if (ipsList.contains(ipsListDraft[i])==false) {
-          ipsList.add(ipsListDraft[i]);
-          hostnameList.add(hostnameListDraft[i]);
-        }
-
         print('catchError Socket.connect' + error.toString());
       });
     }
