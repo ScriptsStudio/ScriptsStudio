@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:scriptstudio/devicesClass.dart';
 
 import 'main.dart';
 
@@ -14,12 +13,6 @@ class AutomaticConnectionScreen extends StatefulWidget {
 }
 
 class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    //scanNetwork();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
