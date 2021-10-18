@@ -12,12 +12,11 @@ def main():
     quer = ""
     query_list = []
     final_query = []
-    # This expects a path to an .apk file and root (sudo) privileges assuming rooted android device
+    
     if opsy_name == "Linux":
-        pacman_names = ["apt-get install -y ", "customizer-install ", "flatpak install ", "zypper --non-interactive install -y ", "dnf install -y ", "urpme ", "slackpkg install ", "slapt-get --install ", "netpkg ", "equo install ", "pacman -S ", "eopkg install ", "apk add ", "smart install ", "pkcon install ", "emerge ", "lin ", "cast ", "nix-env -i ", "xbps-install ", "snap install ", "pkg_add -r ", "pkg install " ]
-        # This value might vary between flatpak, snapd, apt-get or Linux-Auto-Customizer
-        # For the moment expects a valid app name and may need root (sudo) privileges
-        package_manager_command = pacman_names[0]
+        pacman_names = ["apt-get install -y ", "customizer-install", "flatpak install ", "zypper --non-interactive install -y ", "dnf install -y ", "urpme ", "slackpkg install ", "slapt-get --install ", "netpkg ", "equo install ", "pacman -S ", "eopkg install ", "apk add ", "smart install ", "pkcon install ", "emerge ", "lin ", "cast ", "nix-env -i ", "xbps-install ", "snap install ", "pkg_add -r ", "pkg install " ]
+
+        package_manager_command = pacman_names[1]
     elif opsy_name == "Windows":
         package_manager_command = "winget install --accept-package-agreements --accept-source-agreements -h -q "
         winget_allowance_command = True
@@ -30,16 +29,13 @@ def main():
     for i in range(len(argument_list)):
         final_query.append(argument_list[i])
         quer += " " + argument_list[i]
-    # Argument processing (&& in Linux ; in windows)
+
 
     if not winget_allowance_command:
         quer = package_manager_command + quer
         subprocess.run(quer, shell=True)
     else:
-        #quer += ";"
-        # Windows is going to need some logic to install by id performing some research to form the string
-
-        #print(final_query)
+        # This expects a path to an .apk file and root (sudo) privileges assuming rooted android device
         for i in final_query:
             quer = package_manager_command + " " + i
             subprocess.run(quer, shell=True)
