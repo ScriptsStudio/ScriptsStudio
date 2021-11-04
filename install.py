@@ -17,7 +17,8 @@ def main():
         pacman_names = ["apt-get install -y ", "customizer-install", "flatpak install ", "zypper --non-interactive install -y ", "dnf install -y ", "urpme ", "slackpkg install ", "slapt-get --install ", "netpkg ", "equo install ", "pacman -S ", "eopkg install ", "apk add ", "smart install ", "pkcon install ", "emerge ", "lin ", "cast ", "nix-env -i ", "xbps-install ", "snap install ", "pkg_add -r ", "pkg install " ]
         package_manager_command = pacman_names[0]
         android_quer = "echo $(uname -a) | rev | cut -d " " -f1 | rev"
-        if subprocess.run(android_quer).strip() == 'Android':
+        thing = subprocess.run(android_quer, shell=True).strip() == 'Android'
+        if thing == True:
             # This expects a path to an .apk file and root (sudo) privileges assuming rooted android device
             package_manager_command = "pm install "
     elif opsy_name == "Windows":
