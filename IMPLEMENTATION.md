@@ -3,6 +3,12 @@
 	- Add/Remove Crontab function
 	- [x] Add/Remove repository function
 	- [~] Desktop Ubuntu customizations
+	- [~] Git bash functions improved
+	- [~] Rsync command automation
+	- [x] ssh access to multiple clients at once by any host
+	- [~] IP host pool
+	- [~] IP client pool
+	- [ ] manage multiple terminal sessions by host
 
 - TECHNICAL MULTIPLATFORM IDEAS
 	- use pm to install / uninstall within phone (care about root permissions) *adb
