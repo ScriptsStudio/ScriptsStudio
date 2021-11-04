@@ -22,6 +22,7 @@ def main():
         else:
             # This expects a path to an .apk file and root (sudo) privileges assuming rooted android device
             package_manager_command = "pm install "
+            print("We are in Android")
     elif opsy_name == "Windows":
         pacman_names = ["winget install --accept-package-agreements --accept-source-agreements -h -q ", "choco install -y "]
         package_manager_command = pacman_names[0]
