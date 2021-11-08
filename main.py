@@ -51,6 +51,7 @@ class Customizer:
         self.features["pgadmin"] = VenvFeature("holaa", "0", "/home/axel/Escritorio/.customizer/bin/holaa", ["pgadmin_data", "pgadmin4"])
         self.features["asix2Atesting"] = GitFeature("asix2atesting", "1", "/home/axel/Escritorio/git/gitlab/asix2atesting", "https://gitlab.com/Axlfc/Asix2Atesting")
         self.features["Clockmoji"] = GitFeature("clockmoji", "0", "/home/axel/Escritorio/git/gitlab/clockmoji", "https://gitlab.com/Axlfc/clockmoji")
+        self.features["getwinget"] = GitFeature("getwinget", "0", "/mnt/c/Users/Axel F C/Desktop/git/getwinget", "https://github.com/Axlfc/get-winget")
 
     def __str__(self):
         d = ""
