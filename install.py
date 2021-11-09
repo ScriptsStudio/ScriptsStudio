@@ -22,7 +22,10 @@ def main():
             root_check = subprocess.check_output(['whoami'], shell=True)
             if root_check == "root":
                 print("Device is rooted")
-            package_manager_command = "pm install "
+                package_manager_command = "pm install "
+            else:
+                package_manager_command = "pkg install "
+
     elif opsy_name == "Windows":
         pacman_names = ["winget install --accept-package-agreements --accept-source-agreements -h -q ", "choco install -y "]
         package_manager_command = pacman_names[0]
