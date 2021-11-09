@@ -16,10 +16,10 @@ def main():
     if opsy_name == "Linux":
         pacman_names = ["apt-get install -y ", "customizer-install", "flatpak install ", "zypper --non-interactive install -y ", "dnf install -y ", "urpme ", "slackpkg install ", "slapt-get --install ", "netpkg ", "equo install ", "pacman -S ", "eopkg install ", "apk add ", "smart install ", "pkcon install ", "emerge ", "lin ", "cast ", "nix-env -i ", "xbps-install ", "snap install ", "pkg_add -r ", "pkg install " ]
         package_manager_command = pacman_names[0]
-        android_quer = "uname -a | rev | cut -d \" \" -f1 | rev"
+        android_quer = "sudo whoami"
         if subprocess.check_output(['uname', '-o']).strip() == b'Android':
             # This expects a path to an .apk file and root (sudo) privileges assuming rooted android device
-            root_check = subprocess.check_output(['whoami'], shell=True)
+            root_check = subprocess.check_output([android_quer], shell=True)
             if root_check == "root":
                 print("Device is rooted")
                 package_manager_command = "pm install "
