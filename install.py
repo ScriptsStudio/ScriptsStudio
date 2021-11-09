@@ -19,8 +19,8 @@ def main():
         android_quer = "uname -a | rev | cut -d \" \" -f1 | rev"
         if subprocess.check_output(['uname', '-o']).strip() == b'Android':
             # This expects a path to an .apk file and root (sudo) privileges assuming rooted android device
-            root_check = subprocess.check_output(cmd, shell=True)
-            if root_check is 1:
+            root_check = subprocess.check_output(['sudo','whoami'], shell=True)
+            if root_check is "root":
                 print("Device is rooted")
             package_manager_command = "pm install "
     elif opsy_name == "Windows":
