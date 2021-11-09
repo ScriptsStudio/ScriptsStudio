@@ -20,7 +20,7 @@ def main():
         if subprocess.check_output(['uname', '-o']).strip() == b'Android':
             # This expects a path to an .apk file and root (sudo) privileges assuming rooted android device
             try:
-                subprocess.check_call('[ $(whoami) == root ] || sudo --non-interactive true',shell=True, stderr=subprocess.DEVNULL)
+                subprocess.check_call('[ $(id -u) == 0 ] || sudo --non-interactive true',shell=True, stderr=subprocess.DEVNULL)
             except subprocess.CalledProcessError:
                 print("not rooted")
             package_manager_command = "pm install "
