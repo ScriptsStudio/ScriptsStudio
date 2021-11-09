@@ -19,6 +19,9 @@ def main():
         android_quer = "uname -a | rev | cut -d \" \" -f1 | rev"
         if subprocess.check_output(['uname', '-o']).strip() == b'Android':
             # This expects a path to an .apk file and root (sudo) privileges assuming rooted android device
+            if subprocess.check_output(['su', 'id']) == b'uid=0(root) gid=0(root) groups=0(root)':
+                print("I am rooted")
+            
             package_manager_command = "pm install "
     elif opsy_name == "Windows":
         pacman_names = ["winget install --accept-package-agreements --accept-source-agreements -h -q ", "choco install -y "]
