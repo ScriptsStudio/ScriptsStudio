@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class templeteDesing extends StatefulWidget {
   const templeteDesing({key}) : super(key: key);
@@ -22,7 +23,7 @@ class _templeteDesingState extends State<templeteDesing> {
                       horizontal: 20.0, vertical: 40.0),
                   child: CircleAvatar(
                     backgroundColor: Colors.redAccent,
-                    child: Text('Logo'),
+                    child: SvgPicture.asset('assets/logo_ScriptsStudio.svg'),
                   ),
                 ),
                 Padding(

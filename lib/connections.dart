@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import 'devicesClass.dart';
 import 'package:ssh2/ssh2.dart';
 import 'package:libdsm/libdsm.dart';
@@ -26,17 +28,22 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
     _create();
     userSSH = TextEditingController(text: 'root');
     if (ipsList.isEmpty) {
-      Navigator.push(
+      Future.delayed(Duration.zero, () {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => manual_Connection_Screen()),
+                (route) => false);
+      });
+   /*   Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => manual_Connection_Screen()),
-      );
+      );*/
     }
   }
 
   @override
   void dispose() {
-    userSSH.dispose();
-    passwordSSH.dispose();
+    userSSH?.dispose();
+    passwordSSH?.dispose();
     super.dispose();
   }
 
@@ -54,7 +61,7 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                       horizontal: 20.0, vertical: 40.0),
                   child: CircleAvatar(
                     backgroundColor: Colors.redAccent,
-                    child: Text('Logo'),
+                    child: SvgPicture.asset('assets/logo_ScriptsStudio.svg'),
                   ),
                 ),
                 Padding(
@@ -284,10 +291,10 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    ipAddress.dispose();
-    portSSH.dispose();
-    userSSH.dispose();
-    passwordSSH.dispose();
+    ipAddress?.dispose();
+    portSSH?.dispose();
+    userSSH?.dispose();
+    passwordSSH?.dispose();
     super.dispose();
   }
 
@@ -303,8 +310,8 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 20.0, vertical: 40.0),
                 child: CircleAvatar(
-                  backgroundColor: Colors.redAccent,
-                  child: Text('Logo'),
+                  backgroundColor: Colors.red,
+                  child: SvgPicture.asset('assets/logo_ScriptsStudio.svg'),
                 ),
               ),
               Padding(

@@ -1,6 +1,7 @@
 import 'languajes.dart';
 import 'connections.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
