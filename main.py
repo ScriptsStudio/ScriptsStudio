@@ -48,9 +48,9 @@ class GitFeature(Feature):
 class Customizer:
     def __init__(self):
         self.features = {}
-        self.features["holaa"] = VenvFeature("holaa", "0", "/home/axel/Escritorio/.customizer/bin/holaa", ["pgadmin_data", "pgadmin4"])
-        self.features["Daviid"] = GitFeature("Daviid", "1", "/home/axel/Escritorio/git/gitlab/asix2atesting", "https://gitlab.com/Axlfc/Asix2Atesting")
-        self.features["Clock"] = GitFeature("clockmoji", "0", "/home/axel/Escritorio/git/gitlab/clockmoji", "https://gitlab.com/Axlfc/clockmoji")
+        self.features["pgadmin"] = VenvFeature("holaa", "0", "/home/axel/Escritorio/.customizer/bin/holaa", ["pgadmin_data", "pgadmin4"])
+        self.features["asix2Atesting"] = GitFeature("asix2atesting", "1", "/home/axel/Escritorio/git/gitlab/asix2atesting", "https://gitlab.com/Axlfc/Asix2Atesting")
+        self.features["Clockmoji"] = GitFeature("clockmoji", "0", "/home/axel/Escritorio/git/gitlab/clockmoji", "https://gitlab.com/Axlfc/clockmoji")
 
     def __str__(self):
         d = ""
