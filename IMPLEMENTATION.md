@@ -19,3 +19,6 @@
 
 	- update to last version of an updated stable release of applications automatically and update the latest url available from the features from its official page if possible locally. `(We should check for STABLE string and match and update the highest version nearest it)`
 
+- install.py:
+	- We have to detect if an Android Device is rooted or not to assign correct package manager.
+	- Automate package manager detection
