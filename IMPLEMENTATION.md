@@ -22,3 +22,6 @@
 - install.py:
 	- We have to detect if an Android Device is rooted or not to assign correct package manager.
 	- Automate package manager detection
+- Prepare Dependencies in the system that runs the App
+- Prepare list of installed apps and its icons
+- Separate Network Scanning from Connection Stablishing and Input Manager
