@@ -1,11 +1,8 @@
 import 'languajes.dart';
-import 'connections.dart';
+import 'splashScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:splashscreen/splashscreen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-List ipsList = [];
-List hostnameList = [];
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -78,33 +75,6 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: Splash(),
-    );
-  }
-}
-
-class Splash extends StatefulWidget {
-  @override
-  State<Splash> createState() => _SplashState();
-}
-
-class _SplashState extends State<Splash> {
-  @override
-  Widget build(BuildContext context) {
-    return SplashScreen(
-      seconds: 5,
-      navigateAfterSeconds: new AutomaticConnectionScreen(),
-      title: new Text(
-        'ScriptsStudio',
-        style: Theme.of(context).textTheme.headline4,
-      ),
-      image: null,
-      loadingText: Text(
-        "Loading...",
-        style: Theme.of(context).textTheme.button,
-      ),
-      photoSize: 50.0,
-      loaderColor: Colors.white,
-      backgroundColor: Colors.red,
     );
   }
 }
