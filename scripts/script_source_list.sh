@@ -7,6 +7,7 @@ if [ "${EUID}" != 0 ]; then
   declare BASHRC_PATH="${HOME_FOLDER}/.bashrc"
   declare BASHRC_ALL_USERS_PATH="/etc/bash.bashrc"
   declare PROFILE_PATH="${HOME_FOLDER}/.profile"
+  declare SCRIPTS_FOLDER="${XDG_DESKTOP_DIR}/git/ScriptsStudio"
 
   declare USER_DIRS_PATH="${HOME_FOLDER}/.config/user-dirs.dirs"
 
@@ -20,11 +21,11 @@ if [ "${EUID}" != 0 ]; then
 fi
 
 
-item_list=("${XDG_DESKTOP_DIR}/git/ScriptsStudio/scripts/manage_apt_repo.sh"
-"${XDG_DESKTOP_DIR}/git/ScriptsStudio/scripts/customize_desktop.sh"
-"${XDG_DESKTOP_DIR}/git/ScriptsStudio/scripts/rename.sh"
-"${XDG_DESKTOP_DIR}/git/ScriptsStudio/scripts/compile_rust.sh"
-"${XDG_DESKTOP_DIR}/git/ScriptsStudio/scripts/wtf.sh"
+item_list=("${SCRIPTS_FOLDER}/scripts/manage_apt_repo.sh"
+"${SCRIPTS_FOLDER}/scripts/customize_desktop.sh"
+"${SCRIPTS_FOLDER}/scripts/rename.sh"
+"${SCRIPTS_FOLDER}/scripts/compile_rust.sh"
+"${SCRIPTS_FOLDER}/scripts/wtf.sh"
 )
 
 
@@ -34,7 +35,7 @@ done
 
 
 if [ "${EUID}" != 0 ]; then
-  declare SCRIPTS_FOLDER="${XDG_DESKTOP_DIR}/git/ScriptsStudio"
+
   declare SCRIPTS_SCRIPT_PATH="${SCRIPTS_FOLDER}/scripts/script_source_list.sh"
   chmod +x "${SCRIPTS_SCRIPT_PATH}"
 
