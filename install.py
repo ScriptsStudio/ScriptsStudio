@@ -41,10 +41,10 @@ def process_packagemanager(platf):
     if platf == "Linux":
         return package_oslinux()
 
-    elif plat() == "Windows":
+    elif platf == "Windows":
         return package_oswindows()
 
-    elif plat() == "Darwin":
+    elif platf == "Darwin":
         return package_osmac()
 
 
