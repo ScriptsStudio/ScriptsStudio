@@ -5,7 +5,7 @@ import install
 
 def process_hackages(platf):
     if platf == "Linux":
-        return ["python3", "python3-pip"]
+        return ["python3", "python3-pip", "ssh"]
 
     elif platf == "Windows":
         return ["python3"]

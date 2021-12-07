@@ -70,3 +70,4 @@ if __name__ == "__main__":
             quer = package_manager_command + " " + i
 
     subprocess.run(quer, shell=True)
+    
