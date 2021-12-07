@@ -10,7 +10,7 @@ def plat():
 
 def package_oslinux():
     pacman_names = ["apt-get install -y ", "customizer-install", "flatpak install ", "zypper --non-interactive install -y ", "dnf install -y ", "urpme ", "slackpkg install ", "slapt-get --install ", "netpkg ", "equo install ", "pacman -S ", "eopkg install ", "apk add ", "smart install ", "pkcon install ", "emerge ", "lin ", "cast ", "nix-env -i ", "xbps-install ", "snap install ", "pkg_add -r ", "pkg install " ]
-    package_manager_command = pacman_names[1]
+    package_manager_command = pacman_names[0]
 
     if subprocess.check_output(['uname', '-o']).strip() == b'Android':
         # This expects a path to an .apk file and root (sudo) privileges assuming rooted android device
@@ -66,8 +66,8 @@ if __name__ == "__main__":
 
     if not winget_allowance_command:
         quer = package_manager_command + quer
-        subprocess.run(quer, shell=True)
     else:
         for i in final_query:
             quer = package_manager_command + " " + i
-            subprocess.run(quer, shell=True)
+
+    subprocess.run(quer, shell=True)
