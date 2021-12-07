@@ -2,20 +2,19 @@
 import os
 import install
 
-#os.system("install.sh test")
-hackage_manager = install.process_packagemanager(install.plat())
 
-def process_packages(platf):
+def process_hackages(platf):
     if platf == "Linux":
-        return [" test", " test2"]
+        return ["python3", "python3-pip"]
 
     elif platf == "Windows":
-        return ["Python3.Python3"]
+        return ["python3"]
 
     elif platf == "Darwin":
         pass
 
-tmp = ""
-package_list = process_packages(install.plat())
 
-os.system(hackage_manager + tmp.join(package_list))
+if __name__ == "__main__":
+	hackage_manager = install.process_packagemanager(install.plat())
+	tmp = " "
+	os.system(hackage_manager + tmp.join(process_hackages(install.plat())))

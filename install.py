@@ -9,7 +9,7 @@ def plat():
 
 
 def package_oslinux():
-    pacman_names = ["apt-get install -y ", "customizer-install", "flatpak install ", "zypper --non-interactive install -y ", "dnf install -y ", "urpme ", "slackpkg install ", "slapt-get --install ", "netpkg ", "equo install ", "pacman -S ", "eopkg install ", "apk add ", "smart install ", "pkcon install ", "emerge ", "lin ", "cast ", "nix-env -i ", "xbps-install ", "snap install ", "pkg_add -r ", "pkg install " ]
+    pacman_names = ["apt-get install -y ", "customizer-install ", "flatpak install ", "zypper --non-interactive install -y ", "dnf install -y ", "urpme ", "slackpkg install ", "slapt-get --install ", "netpkg ", "equo install ", "pacman -S ", "eopkg install ", "apk add ", "smart install ", "pkcon install ", "emerge ", "lin ", "cast ", "nix-env -i ", "xbps-install ", "snap install ", "pkg_add -r ", "pkg install " ]
     package_manager_command = pacman_names[0]
 
     if subprocess.check_output(['uname', '-o']).strip() == b'Android':
@@ -28,7 +28,6 @@ def package_oswindows():
 
     pacman_names = ["winget install --accept-package-agreements --accept-source-agreements -h -q ", "choco install -y "]
     package_manager_command = pacman_names[0]
-    #winget_allowance_command = True
     return package_manager_command
 
 
