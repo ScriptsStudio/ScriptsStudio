@@ -5,7 +5,6 @@ import sys
 
 
 def plat():
-    opsy_name = platform.system()
     return platform.system()
 
 
@@ -49,15 +48,6 @@ def process_packagemanager(platf):
         return package_osmac()
 
 
-def prepare_query(argum):
-    quer = ""
-    final_query = []
-    for i in range(len(argument_list)):
-        final_query.append(argument_list[i])
-        quer += " " + argument_list[i]
-    return quer
-
-
 if __name__ == "__main__":
     
     winget_allowance_command = False
@@ -66,9 +56,13 @@ if __name__ == "__main__":
 
     package_manager_command = process_packagemanager(plat())
 
-    final_query = []
     argument_list = sys.argv[1:]
-    quer = prepare_query(argument_list)
+    quer = ""
+    final_query = []
+
+    for i in range(len(argument_list)):
+        final_query.append(argument_list[i])
+        quer += " " + argument_list[i]
 
     if not winget_allowance_command:
         quer = package_manager_command + quer
