@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 import os
 import install
-import subprocess
-
 
 #os.system("install.sh test")
 hackage_manager = install.process_packagemanager(install.plat())
 
-if install.plat() == "Linux":
-	package_list = [" test", " test2"]
-	tmp = ""
-	os.system(hackage_manager + tmp.join(package_list))
+def process_packages(platf):
+    if platf == "Linux":
+        return [" test", " test2"]
 
-elif install.plat() == "Windows":
-    pass
+    elif platf == "Windows":
+        return ["Python3.Python3"]
 
-elif install.plat() == "Darwin":
-    pass
+    elif platf == "Darwin":
+        pass
 
+tmp = ""
+package_list = process_packages(install.plat())
+
+os.system(hackage_manager + tmp.join(package_list))
