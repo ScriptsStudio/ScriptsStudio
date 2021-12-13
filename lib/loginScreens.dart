@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:scriptstudio/mainMenu.dart';
+
 import 'globalVariables.dart';
 import 'package:ssh2/ssh2.dart';
 import 'package:flutter/material.dart';
@@ -178,7 +180,7 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        null),
+                                                        mainMenu()),
                                               );
                                           });
                                         },
@@ -420,7 +422,7 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                      null),
+                                          mainMenu()),
                                 );
                             },
                             icon: Icon(Icons.navigate_next),

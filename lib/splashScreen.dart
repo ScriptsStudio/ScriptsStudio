@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:libdsm/libdsm.dart';
+import 'package:scriptstudio/mainMenu.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'globalVariables.dart';
 import 'loginScreens.dart';
