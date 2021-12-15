@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "321447930476",
+    "firebase_url": "https://scriptsstudio-axlfcxrppy-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "scriptsstudio-axlfcxrppy",
+    "storage_bucket": "scriptsstudio-axlfcxrppy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:321447930476:android:923837cc1a146fa8f24649",
+        "android_client_info": {
+          "package_name": "com.axlfcxruppy.scriptstudio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "321447930476-f298n6f5b4pusfag3gml8usa7nbbs8u8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOIz76MkKPnkkOH_O10dPOozdAvdLEhxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "321447930476-f298n6f5b4pusfag3gml8usa7nbbs8u8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

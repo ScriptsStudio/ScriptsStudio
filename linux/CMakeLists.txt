@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
 set(BINARY_NAME "scriptstudio")
-set(APPLICATION_ID "com.example.scriptstudio")
+set(APPLICATION_ID "com.axlfcxruppy.scriptstudio")
 
 cmake_policy(SET CMP0063 NEW)
 
