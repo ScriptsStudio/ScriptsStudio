@@ -1,9 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:scriptstudio/installerScreen.dart';
+
 import 'languajes.dart';
 import 'splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -74,7 +81,7 @@ class MyApp extends StatelessWidget {
               fontSize: 16.0, letterSpacing: 0.1, fontStyle: FontStyle.italic),
         ),
       ),
-      home: Splash(),
+      home: installerScreen(),
     );
   }
 }
