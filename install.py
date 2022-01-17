@@ -26,7 +26,7 @@ def package_oslinux():
 
 def package_oswindows():
 
-    pacman_names = ["winget install --accept-package-agreements --accept-source-agreements -h -q ", "choco install -y "]
+    pacman_names = ["winget install --accept-package-agreements --accept-source-agreements -h -q -s winget ", "choco install -y "]
     package_manager_command = pacman_names[0]
     return package_manager_command
 
