@@ -15,7 +15,6 @@ dependencies:
   firebase_analytics: ^9.0.3
   cloud_firestore: ^3.1.4
   firebase_storage: ^10.2.3
-  splashscreen:
   flutter_localizations:
     sdk: flutter
   libdsm: ^1.1.8
