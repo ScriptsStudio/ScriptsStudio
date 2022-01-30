@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'globalVariables.dart';
+import 'listAppScreen.dart';
+
 class installerScreen extends StatefulWidget {
   const installerScreen({key}) : super(key: key);
 
@@ -17,6 +20,8 @@ class _installerScreenState extends State<installerScreen> {
   }
 
   final db = FirebaseFirestore.instance;
+  //List<String> applicationsSelected = [];
+
   List<String> categoriesAppsWindows = [
     'Productivity',
     'Social',
@@ -44,7 +49,7 @@ class _installerScreenState extends State<installerScreen> {
     'GitFunctions',
     'Wrappers'
   ];
-String systemSelected='Windows';
+  String systemSelected = 'Windows';
   List<String> developersNick = ['XRuppy', 'Axlfc'];
   List<String> systemsList = ['Windows', 'Linux'];
   int _choiseIndex;
@@ -65,7 +70,7 @@ String systemSelected='Windows';
               onSelected: (bool selected) {
                 setState(() {
                   _choiseIndex = selected ? index : 0;
-                  systemSelected= systemsList[index];
+                  systemSelected = systemsList[index];
                 });
               },
               backgroundColor: Colors.black12,
@@ -90,7 +95,8 @@ String systemSelected='Windows';
           StreamBuilder(
             stream: db
                 .collection('Applications')
-                .where(filter, isEqualTo: data).where('system', arrayContains: systemSelected)
+                .where(filter, isEqualTo: data)
+                .where('system', arrayContains: systemSelected)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -139,14 +145,20 @@ String systemSelected='Windows';
                                   ),
                                 ),
                                 Text(data['nameDisplay'],
-                                    style:
-                                        Theme.of(context).textTheme.caption),
+                                    style: Theme.of(context).textTheme.caption),
                                 ElevatedButton(
                                   child: Text('SELECT',
                                       style:
                                           Theme.of(context).textTheme.button),
                                   onPressed: () {
-                                    print(data['nameDisplay']+'hola');
+                                    print(data['nameDisplay'] + 'hola');
+                                    applicationsSelected[data['nameDisplay']] =
+                                        data['name' + systemSelected];
+                                    print(applicationsSelected);
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Text("Se ha añadido ${data['nameDisplay']} a la lista"),
+                                      duration: Duration(seconds: 2),
+                                    ));
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.redAccent,
@@ -175,80 +187,89 @@ String systemSelected='Windows';
     return Scaffold(
       body: SafeArea(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 40.0),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.redAccent,
-                      child: SvgPicture.asset('assets/logo_ScriptsStudio.svg'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 5.0, vertical: 40.0),
-                    child: Text('ScriptsStudio',
-                        style: Theme.of(context).textTheme.headline4),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(40),
-                            topLeft: Radius.circular(40)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12.withOpacity(0.2),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 12, right: 12,left: 12),
-                        child: ListView(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, top: 20.0, right: 20.0),
-                                  child: Text('Installer',
-                                      style: Theme.of(context).textTheme.subtitle1),
-                                ),
-                                _buildChoiceChips(),
-                                for (var nick in developersNick)
-                                  listsAppsWidget(
-                                      nick, 'recomendedBy', 'Recommended by '),
-                                if(systemSelected == 'Windows')
-                                for (var category in categoriesAppsWindows)
-                                  listsAppsWidget(category, 'tag', ''),
-                                if(systemSelected == 'Linux')
-                                  for (var category in categoriesAppsLinux)
-                                    listsAppsWidget(category, 'tag', ''),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 40.0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.redAccent,
+                  child: SvgPicture.asset('assets/logo_ScriptsStudio.svg'),
                 ),
               ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 40.0),
+                child: Text('ScriptsStudio',
+                    style: Theme.of(context).textTheme.headline4),
+              ),
             ],
-          )),
+          ),
+          Expanded(
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(40),
+                        topLeft: Radius.circular(40)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12.withOpacity(0.2),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 12, right: 12, left: 12),
+                    child: ListView(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, top: 20.0, right: 20.0),
+                              child: Text('Installer',
+                                  style: Theme.of(context).textTheme.subtitle1),
+                            ),
+                            TextButton(
+                                onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              listAppScreen()),
+                                    ),
+                                child: Text('Ver las apps seleccionadas')),
+                            _buildChoiceChips(),
+                            for (var nick in developersNick)
+                              listsAppsWidget(
+                                  nick, 'recomendedBy', 'Recommended by '),
+                            if (systemSelected == 'Windows')
+                              for (var category in categoriesAppsWindows)
+                                listsAppsWidget(category, 'tag', ''),
+                            if (systemSelected == 'Linux')
+                              for (var category in categoriesAppsLinux)
+                                listsAppsWidget(category, 'tag', ''),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      )),
     );
   }
 }

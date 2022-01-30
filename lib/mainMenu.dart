@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:scriptstudio/installerScreen.dart';
+
+import 'listAppScreen.dart';
 
 class mainMenu extends StatefulWidget {
   const mainMenu({key}) : super(key: key);
@@ -10,7 +13,36 @@ class mainMenu extends StatefulWidget {
 
 class _mainMenuState extends State<mainMenu> {
   List <String> items= ['Installing software','Uninstalling software','Customization', 'Cleaning', 'Optimization','Command Console'];
+  var categoriesButtons = {'Installing software': installerScreen(),'Uninstalling software':listAppScreen(),'Customization':listAppScreen(),'Cleaning':listAppScreen(),'Optimization':listAppScreen(),'Command Console':listAppScreen()};
 
+  Widget buttonMain(String data,var screenRoute) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton.icon(
+        onPressed: () async {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) {
+                  return screenRoute;
+                }),
+          );
+        },
+        icon: Icon(Icons.navigate_next),
+        label: Text(
+          data,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        style: ElevatedButton.styleFrom(
+            fixedSize: const Size(300, 50),
+            primary: Colors.redAccent,
+            shape: new RoundedRectangleBorder(
+              borderRadius:
+              new BorderRadius.circular(15.0),
+            )),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,30 +108,16 @@ class _mainMenuState extends State<mainMenu> {
                           flex: 2,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: ListView.builder(
-                              itemCount: items.length,
-                              itemBuilder: (context, index) {
-                            final item = items[index];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ElevatedButton.icon(
-                                onPressed: () async {},
-                                icon: Icon(Icons.navigate_next),
-                                label: Text(
-                                  items[index],
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    fixedSize: const Size(300, 50),
-                                    primary: Colors.redAccent,
-                                    shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                      new BorderRadius.circular(15.0),
-                                    )),
-                              ),
-                            );
-                              },
-                            ),
+                            child: new ListView.builder(
+                                itemCount: categoriesButtons.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Column(children: [
+                                    buttonMain(categoriesButtons.keys
+                                        .elementAt(index), categoriesButtons.values
+                                        .elementAt(index))
+
+                                  ]);
+                                })
                           ),
                         )
                       ],

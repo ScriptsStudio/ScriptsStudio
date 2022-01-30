@@ -5,3 +5,4 @@ int portSSH=22;
 String userSSH;
 String passwordSSH;
 var client;
+var applicationsSelected = new Map();

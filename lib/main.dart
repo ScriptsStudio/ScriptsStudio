@@ -1,9 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:scriptstudio/installerScreen.dart';
+import 'package:scriptstudio/mainMenu.dart';
 import 'languajes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'loginScreens.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -81,7 +84,7 @@ class MyApp extends StatelessWidget {
               fontSize: 16.0, letterSpacing: 0.1, fontStyle: FontStyle.italic),
         ),
       ),
-      home: installerScreen(),
+      home: AutomaticConnectionScreen(),
     );
   }
 }

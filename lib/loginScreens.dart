@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:libdsm/libdsm.dart';
 import 'package:scriptstudio/mainMenu.dart';
 
+import 'devicesClass.dart';
 import 'globalVariables.dart';
 import 'package:ssh2/ssh2.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +12,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:multi_select_item/multi_select_item.dart';
 
 bool connected = false;
+List ipsListDraft = [];
+List hostnameListDraft = [];
+Dsm dsm = Dsm();
 
 class AutomaticConnectionScreen extends StatefulWidget {
   const AutomaticConnectionScreen({Key key}) : super(key: key);
@@ -26,6 +32,7 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
   @override
   void initState() {
     super.initState();
+    _create();
     userSSH = TextEditingController(text: 'root');
     passwordSSH = TextEditingController();
     controller.disableEditingWhenNoneSelected = true;
@@ -480,8 +487,11 @@ Future<void> onConnectToPCSSH(String ipAddressController, int portController,
   try {
     result = await client.connect() ?? 'Null result';
     if (result == "session_connected")
-      result = await client.execute('echo $passwordSSH | sudo -S whoami') ??
+      result = await client.execute('sudo.exeA cleanmgr') ??
           'Null result';
+
+    print(result);
+    result = await client.execute("whoami");
     print(result);
     connected = true;
     await client.disconnect();
@@ -490,4 +500,56 @@ Future<void> onConnectToPCSSH(String ipAddressController, int portController,
     result = errorMessage;
     print(errorMessage);
   }
+}
+
+
+void _create() async {
+  await dsm.init();
+  _startDiscovery();
+}
+
+void _startDiscovery() async {
+  dsm.onDiscoveryChanged.listen(_discoveryListener);
+  await dsm.startDiscovery();
+}
+
+void _discoveryListener(String json) async {
+  print('Discovery : $json');
+  Device device = Device.fromJson(jsonDecode(cleanerJSON(json)));
+  print(device.name);
+  hostnameListDraft.add(device.name);
+  print(device.address);
+  ipsListDraft.add(device.address);
+  confirmSSHOn();
+}
+
+void _stopDiscovery() async {
+  dsm.onDiscoveryChanged.listen(null);
+  await dsm.stopDiscovery();
+}
+
+String cleanerJSON(String json) {
+  String cleanJson = json.substring(10);
+  if (cleanJson != null && cleanJson.length >= 5) {
+    cleanJson = cleanJson.substring(0, cleanJson.length - 10);
+  }
+  return cleanJson;
+}
+
+Future<void> confirmSSHOn() async {
+  const port = 22;
+  for (var i = 0; i < ipsListDraft.length; i++) {
+    String ip = ipsListDraft[i];
+    await Socket.connect(ip, port, timeout: Duration(milliseconds: 50))
+        .then((socket) async {
+      if (ipsList.contains(ipsListDraft[i]) == false) {
+        ipsList.add(ipsListDraft[i]);
+        hostnameList.add(hostnameListDraft[i]);
+      }
+      socket.destroy();
+    }).catchError((error) {
+      print('catchError Socket.connect' + error.toString());
+    });
+  }
+  _stopDiscovery();
 }
