@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -155,8 +156,10 @@ class _installerScreenState extends State<installerScreen> {
                                     applicationsSelected[data['nameDisplay']] =
                                         data['name' + systemSelected];
                                     print(applicationsSelected);
+
                                     Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text("Se ha añadido ${data['nameDisplay']} a la lista"),
+                                      content: Text(
+                                          "Se ha añadido ${data['nameDisplay']} a la lista"),
                                       duration: Duration(seconds: 2),
                                     ));
                                   },
@@ -181,6 +184,7 @@ class _installerScreenState extends State<installerScreen> {
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

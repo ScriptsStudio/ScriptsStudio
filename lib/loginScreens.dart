@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:libdsm/libdsm.dart';
 import 'package:scriptstudio/mainMenu.dart';
-
+import 'package:dart_ping/dart_ping.dart';
 import 'devicesClass.dart';
 import 'globalVariables.dart';
 import 'package:ssh2/ssh2.dart';
@@ -180,8 +180,11 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                           setState(() {
                                             controller.toggle(index);
                                             debugPrint(ipsList[index]);
-                                            onConnectToPCSSH(ipsList[index], portSSH,
-                                                userSSH.text, passwordSSH.text);
+                                            onConnectToPCSSH(
+                                                ipsList[index],
+                                                portSSH,
+                                                userSSH.text,
+                                                passwordSSH.text);
                                             if (connected = true)
                                               Navigator.push(
                                                 context,
@@ -428,8 +431,7 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          mainMenu()),
+                                      builder: (context) => mainMenu()),
                                 );
                             },
                             icon: Icon(Icons.navigate_next),
@@ -487,8 +489,7 @@ Future<void> onConnectToPCSSH(String ipAddressController, int portController,
   try {
     result = await client.connect() ?? 'Null result';
     if (result == "session_connected")
-      result = await client.execute('sudo.exeA cleanmgr') ??
-          'Null result';
+      result = await client.execute('sudo.exeA cleanmgr') ?? 'Null result';
 
     print(result);
     result = await client.execute("whoami");
@@ -501,7 +502,6 @@ Future<void> onConnectToPCSSH(String ipAddressController, int portController,
     print(errorMessage);
   }
 }
-
 
 void _create() async {
   await dsm.init();
@@ -552,4 +552,33 @@ Future<void> confirmSSHOn() async {
     });
   }
   _stopDiscovery();
+}
+
+String whichSystemIsForTheTTL() {
+  int numPings = 0;
+  int ttl;
+  final ping = Ping('192.168.68.130',
+      count: 2, interval: 1, encoding: Utf8Codec(allowMalformed: true));
+
+  ping.stream.listen((event) {
+    while (numPings <= 1) {
+      ttl = event.response.ttl;
+      numPings++;
+    }
+    //print(ttl);
+    if (ttl != null) {
+      if (ttl >= 126 && ttl <= 128) {
+        print('Is Windows');
+        return 'Windows';
+      } else if (ttl >= 63 && ttl <= 65) {
+        print('Is Linux');
+        return 'Linux';
+      } else {
+        print('Es otro sistema operativo o se ha cambiado el TTL por defecto');
+      }
+    } else {
+      print(
+          'No hay respuesta por parte del sistema, no deja obtener información');
+    }
+  });
 }
