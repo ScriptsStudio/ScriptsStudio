@@ -58,16 +58,16 @@ if __name__ == "__main__":
     argument_list = sys.argv[1:]
     quer = ""
     final_query = []
-
+    
     for i in range(len(argument_list)):
+        print(argument_list[i])
         final_query.append(argument_list[i])
         quer += " " + argument_list[i]
 
     if not winget_allowance_command:
         quer = package_manager_command + quer
+        subprocess.run(quer, shell=True)
     else:
         for i in final_query:
             quer = package_manager_command + " " + i
-
-    subprocess.run(quer, shell=True)
-    
+            subprocess.run(quer, shell=True)   
