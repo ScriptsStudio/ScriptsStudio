@@ -5,10 +5,10 @@ import install
 
 def process_hackages(platf):
     if platf == "Linux":
-        return ["python3", "python3-pip", "ssh"]
+        return ["ssh"]
 
     elif platf == "Windows":
-        return ["python3"]
+        pass
 
     elif platf == "Darwin":
         pass
