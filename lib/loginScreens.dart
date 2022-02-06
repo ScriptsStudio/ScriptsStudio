@@ -9,7 +9,6 @@ import 'package:ssh2/ssh2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:multi_select_item/multi_select_item.dart';
 
 bool connected = false;
 List ipsListDraft = [];
@@ -27,7 +26,6 @@ class AutomaticConnectionScreen extends StatefulWidget {
 class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
   TextEditingController userSSH;
   TextEditingController passwordSSH;
-  MultiSelectController controller = new MultiSelectController();
 
   @override
   void initState() {
@@ -35,8 +33,9 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
     _create();
     userSSH = TextEditingController(text: 'root');
     passwordSSH = TextEditingController();
-    controller.disableEditingWhenNoneSelected = true;
-    controller.set(ipsList.length);
+    Future.delayed(Duration(seconds: 6), () {
+      setState(() {});
+    });
   }
 
   @override
@@ -44,25 +43,6 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
     userSSH?.dispose();
     passwordSSH?.dispose();
     super.dispose();
-  }
-
-  void delete() {
-    var list = controller.selectedIndexes;
-    list.sort((b, a) =>
-        a.compareTo(b)); //reoder from biggest number, so it wont error
-    list.forEach((element) {
-      ipsList.removeAt(element);
-    });
-
-    setState(() {
-      controller.set(ipsList.length);
-    });
-  }
-
-  void selectAll() {
-    setState(() {
-      controller.toggleAll();
-    });
   }
 
   @override
@@ -154,92 +134,125 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: TextButton(
-                              onPressed: () => Navigator.push(
+                              onPressed: () {
+                                ipsList.add('value');
+                                hostnameList.add('value');
+                                setState(() {});
+                              },
+                              /*onPressed: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             manual_Connection_Screen()),
-                                  ),
+                                  ),*/
                               child: Text(
                                 "Can't find your device? Enter it manually",
                                 style: TextStyle(color: Colors.redAccent),
                               )),
                         ),
                         Expanded(
-                          flex: 2,
-                          child: GridView.count(
-                              crossAxisCount: 3,
+                            flex: 2,
+                            child: GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      maxCrossAxisExtent: 200,
+                                      childAspectRatio: 2.5 / 2,
+                                      crossAxisSpacing: 20,
+                                      mainAxisSpacing: 20),
+                              itemCount: ipsList.length,
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              children: List.generate(ipsList.length, (index) {
-                                return InkWell(
-                                    onTap: () {},
-                                    child: MultiSelectItem(
-                                        isSelecting: true,
-                                        onSelected: () {
-                                          setState(() {
-                                            controller.toggle(index);
-                                            debugPrint(ipsList[index]);
-                                            onConnectToPCSSH(
-                                                ipsList[index],
-                                                portSSH,
-                                                userSSH.text,
-                                                passwordSSH.text);
-                                            if (connected = true)
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        mainMenu()),
-                                              );
-                                          });
-                                        },
-                                        child: Card(
-                                            shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                  color: Colors.black),
-                                              borderRadius:
-                                                  BorderRadius.circular(30.0),
+                              itemBuilder: (BuildContext context, index) {
+                                return Card(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    elevation: 6,
+                                    shadowColor: Colors.black,
+                                    color: Colors.white,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 8.0),
+                                            child: CircleAvatar(
+                                              child: Icon(
+                                                Icons.computer,
+                                                color: Colors.white,
+                                              ),
+                                              backgroundColor: Colors.redAccent,
                                             ),
-                                            elevation: 6,
-                                            shadowColor: Colors.black,
-                                            color: Colors.white,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 8.0),
-                                                    child: CircleAvatar(
-                                                      child: Icon(
-                                                        Icons.computer,
-                                                        color: Colors.white,
-                                                      ),
-                                                      backgroundColor:
-                                                          Colors.redAccent,
-                                                    ),
-                                                  ),
-                                                ),
-                                                ListTile(
-                                                  title: Text(
-                                                      hostnameList[index],
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .caption),
-                                                  subtitle: Text(ipsList[index],
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .caption),
-                                                ),
-                                              ],
-                                            ))));
-                              })),
-                        ),
+                                          ),
+                                        ),
+                                        Text(hostnameList[index],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .caption),
+                                        Text(ipsList[index],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .caption),
+                                        ElevatedButton(
+                                          child: Text('CONNECT',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .button),
+                                          onPressed: () {
+                                            whichSystemIsForTheTTL(
+                                                ipsList[index]);
+                                            Future.delayed(Duration(seconds: 2),
+                                                () {
+                                              if (system == 'Windows' ||
+                                                  system == 'Linux') {
+                                                if (userSSH.text.isEmpty ||
+                                                    passwordSSH.text.isEmpty) {
+                                                  print('AletDialog');
+                                                } else {
+                                                  onConnectToPCSSH(
+                                                      ipsList[index],
+                                                      22,
+                                                      userSSH.text,
+                                                      passwordSSH.text);
+
+                                                  Future.delayed(
+                                                      Duration(seconds: 2), () {
+                                                    if (connected == true) {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    mainMenu()),
+                                                      );
+                                                    }
+                                                  });
+                                                }
+                                              } else {
+                                                print('AletDialog');
+                                              }
+                                            });
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.redAccent,
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 5, vertical: 2),
+                                            shape: new RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      30.0),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ));
+                              },
+                            )),
                       ],
                     ),
                   ),
@@ -457,20 +470,6 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
       )),
     );
   }
-
-  Future<void> checkConnectionHost(List ipAddressList, int port) async {
-    for (var i = 0; i < ipAddressList.length; i++) {
-      String ip = ipAddressList[i];
-      await Socket.connect(ip, port, timeout: Duration(milliseconds: 50))
-          .then((socket) async {
-        socket.destroy();
-        return true;
-      }).catchError((error) {
-        print('catchError Socket.connect' + error.toString());
-        return false;
-      });
-    }
-  }
 }
 
 Future<void> onConnectToPCSSH(String ipAddressController, int portController,
@@ -488,19 +487,50 @@ Future<void> onConnectToPCSSH(String ipAddressController, int portController,
   );
   try {
     result = await client.connect() ?? 'Null result';
-    if (result == "session_connected")
+    if (result == "session_connected") {
       result = await client.execute('sudo.exeA cleanmgr') ?? 'Null result';
-
+      connected = true;
+    }
     print(result);
     result = await client.execute("whoami");
+
     print(result);
-    connected = true;
+
     await client.disconnect();
+
   } on PlatformException catch (e) {
     String errorMessage = 'Error: ${e.code}\nError Message: ${e.message}';
     result = errorMessage;
     print(errorMessage);
   }
+}
+
+void whichSystemIsForTheTTL(String ip) {
+  int numPings = 0;
+  int ttl;
+  final ping = Ping(ip,
+      count: 2, interval: 1, encoding: Utf8Codec(allowMalformed: true));
+
+  ping.stream.listen((event) {
+    while (numPings <= 1) {
+      ttl = event.response.ttl;
+      numPings++;
+    }
+    if (ttl != null) {
+      if (ttl >= 126 && ttl <= 128) {
+        print('Is Windows');
+        system = 'Windows';
+      } else if (ttl >= 63 && ttl <= 65) {
+        print('Is Linux');
+        system = 'Linux';
+      } else {
+        print('Es otro sistema operativo o se ha cambiado el TTL por defecto');
+      }
+    } else {
+      print(
+          'No hay respuesta por parte del sistema, no deja obtener información');
+    }
+  });
 }
 
 void _create() async {
@@ -520,7 +550,9 @@ void _discoveryListener(String json) async {
   hostnameListDraft.add(device.name);
   print(device.address);
   ipsListDraft.add(device.address);
-  confirmSSHOn();
+  for (var i = 0; i < ipsListDraft.length; i++) {
+    confirmSSHOn(ipsListDraft[i], 22, hostnameListDraft[i]);
+  }
 }
 
 void _stopDiscovery() async {
@@ -536,49 +568,28 @@ String cleanerJSON(String json) {
   return cleanJson;
 }
 
-Future<void> confirmSSHOn() async {
-  const port = 22;
-  for (var i = 0; i < ipsListDraft.length; i++) {
-    String ip = ipsListDraft[i];
-    await Socket.connect(ip, port, timeout: Duration(milliseconds: 50))
-        .then((socket) async {
-      if (ipsList.contains(ipsListDraft[i]) == false) {
-        ipsList.add(ipsListDraft[i]);
-        hostnameList.add(hostnameListDraft[i]);
-      }
-      socket.destroy();
-    }).catchError((error) {
-      print('catchError Socket.connect' + error.toString());
-    });
-  }
+Future<void> confirmSSHOn(String ip, int port, String hostname) async {
+  Socket.connect(ip, port, timeout: Duration(seconds: 5)).then((socket) {
+    if (ipsList.contains(ip) == false) {
+      ipsList.add(ip);
+      hostnameList.add(hostname);
+    }
+    print("Success");
+    socket.destroy();
+  }).catchError((error) {
+    print("Exception on Socket " + error.toString());
+  });
   _stopDiscovery();
 }
 
-String whichSystemIsForTheTTL() {
-  int numPings = 0;
-  int ttl;
-  final ping = Ping('192.168.68.130',
-      count: 2, interval: 1, encoding: Utf8Codec(allowMalformed: true));
-
-  ping.stream.listen((event) {
-    while (numPings <= 1) {
-      ttl = event.response.ttl;
-      numPings++;
-    }
-    //print(ttl);
-    if (ttl != null) {
-      if (ttl >= 126 && ttl <= 128) {
-        print('Is Windows');
-        return 'Windows';
-      } else if (ttl >= 63 && ttl <= 65) {
-        print('Is Linux');
-        return 'Linux';
-      } else {
-        print('Es otro sistema operativo o se ha cambiado el TTL por defecto');
-      }
-    } else {
-      print(
-          'No hay respuesta por parte del sistema, no deja obtener información');
-    }
-  });
+Future<void> checkConnectionHost(List ipAddressList, int port) async {
+  for (var i = 0; i < ipAddressList.length; i++) {
+    String ip = ipAddressList[i];
+    Socket.connect(ip, port, timeout: Duration(seconds: 5)).then((socket) {
+      print("Success");
+      socket.destroy();
+    }).catchError((error) {
+      print("Exception on Socket " + error.toString());
+    });
+  }
 }
