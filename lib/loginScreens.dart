@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-bool connected = false;
 List ipsListDraft = [];
 List hostnameListDraft = [];
 Dsm dsm = Dsm();
@@ -24,6 +23,7 @@ class AutomaticConnectionScreen extends StatefulWidget {
 }
 
 class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController userSSH;
   TextEditingController passwordSSH;
 
@@ -45,9 +45,42 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
     super.dispose();
   }
 
+  void validateToLogin(int index) {
+    Future.delayed(Duration(milliseconds: 1250), () {
+      if (system == 'Windows' || system == 'Linux') {
+        if (userSSH.text.isEmpty || passwordSSH.text.isEmpty) {
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text("Rellene los campos de usuario y contraseña"),
+            duration: Duration(seconds: 3),
+          ));
+        } else {
+          onConnectToPCSSH(ipsList[index], 22, userSSH.text, passwordSSH.text);
+
+          Future.delayed(Duration(milliseconds: 1250), () {
+            if (connected == true) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => mainMenu()),
+              );
+            } else {
+              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                content: Text(
+                    "No se ha podido establecer conexión con el dispositivo"),
+                duration: Duration(seconds: 3),
+              ));
+            }
+          });
+        }
+      } else {
+        _dialogSystem(context);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
@@ -134,17 +167,12 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: TextButton(
-                              onPressed: () {
-                                ipsList.add('value');
-                                hostnameList.add('value');
-                                setState(() {});
-                              },
-                              /*onPressed: () => Navigator.push(
+                              onPressed: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             manual_Connection_Screen()),
-                                  ),*/
+                                  ),
                               child: Text(
                                 "Can't find your device? Enter it manually",
                                 style: TextStyle(color: Colors.redAccent),
@@ -206,37 +234,7 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                           onPressed: () {
                                             whichSystemIsForTheTTL(
                                                 ipsList[index]);
-                                            Future.delayed(Duration(seconds: 2),
-                                                () {
-                                              if (system == 'Windows' ||
-                                                  system == 'Linux') {
-                                                if (userSSH.text.isEmpty ||
-                                                    passwordSSH.text.isEmpty) {
-                                                  print('AletDialog');
-                                                } else {
-                                                  onConnectToPCSSH(
-                                                      ipsList[index],
-                                                      22,
-                                                      userSSH.text,
-                                                      passwordSSH.text);
-
-                                                  Future.delayed(
-                                                      Duration(seconds: 2), () {
-                                                    if (connected == true) {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    mainMenu()),
-                                                      );
-                                                    }
-                                                  });
-                                                }
-                                              } else {
-                                                print('AletDialog');
-                                              }
-                                            });
+                                            validateToLogin(index);
                                           },
                                           style: ElevatedButton.styleFrom(
                                             primary: Colors.redAccent,
@@ -274,6 +272,7 @@ class manual_Connection_Screen extends StatefulWidget {
 }
 
 class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController ipAddressTEC;
   TextEditingController portSSHTEC;
   TextEditingController userSSHTEC;
@@ -298,9 +297,46 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
     super.dispose();
   }
 
+  void validateToLogin() {
+    Future.delayed(Duration(milliseconds: 1250), () {
+      if (system == 'Windows' || system == 'Linux') {
+        if (ipAddressTEC.text.isEmpty ||
+            portSSHTEC.text.isEmpty ||
+            userSSHTEC.text.isEmpty ||
+            passwordSSHTEC.text.isEmpty) {
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text("Rellene TODOS los campos"),
+            duration: Duration(seconds: 3),
+          ));
+        } else {
+          onConnectToPCSSH(ipAddressTEC.text, int.parse(portSSHTEC.text),
+              userSSHTEC.text, passwordSSHTEC.text);
+
+          Future.delayed(Duration(milliseconds: 1250), () {
+            if (connected == true) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => mainMenu()),
+              );
+            } else {
+              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                content: Text(
+                    "No se ha podido establecer conexión con el dispositivo"),
+                duration: Duration(seconds: 3),
+              ));
+            }
+          });
+        }
+      } else {
+        _dialogSystem(context);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
           child: Column(
         children: [
@@ -435,17 +471,8 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
                           padding: const EdgeInsets.all(26.0),
                           child: ElevatedButton.icon(
                             onPressed: () async {
-                              onConnectToPCSSH(
-                                  ipAddressTEC.text,
-                                  int.parse(portSSHTEC.text),
-                                  userSSHTEC.text,
-                                  passwordSSHTEC.text);
-                              if (connected = true)
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => mainMenu()),
-                                );
+                              whichSystemIsForTheTTL(ipAddressTEC.text);
+                              validateToLogin();
                             },
                             icon: Icon(Icons.navigate_next),
                             label: Text(
@@ -497,7 +524,6 @@ Future<void> onConnectToPCSSH(String ipAddressController, int portController,
     print(result);
 
     await client.disconnect();
-
   } on PlatformException catch (e) {
     String errorMessage = 'Error: ${e.code}\nError Message: ${e.message}';
     result = errorMessage;
@@ -592,4 +618,34 @@ Future<void> checkConnectionHost(List ipAddressList, int port) async {
       print("Exception on Socket " + error.toString());
     });
   }
+}
+
+Future<void> _dialogSystem(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    builder: (_) {
+      return AlertDialog(
+        title: Text('¡Atención!', style: Theme.of(context).textTheme.subtitle1),
+        content: Text(
+            "No se ha podido detectar el sistema automáticamente. ¿Podría indicar cual es su sistema?",
+            style: Theme.of(context).textTheme.bodyText1),
+        actions: <Widget>[
+          FlatButton(
+              child: Text("WINDOWS"),
+              textColor: Colors.redAccent,
+              onPressed: () {
+                system = 'Windows';
+                Navigator.of(context).pop();
+              }),
+          FlatButton(
+              child: Text("GNU/LINUX"),
+              textColor: Colors.redAccent,
+              onPressed: () {
+                system = 'Linux';
+                Navigator.of(context).pop();
+              }),
+        ],
+      );
+    },
+  );
 }
