@@ -9,30 +9,30 @@ def plat():
 
 
 def package_oslinux():
-    pacman_names = ["apt-get install -y ", "customizer-install ", "flatpak install ", "zypper --non-interactive install -y ", "dnf install -y ", "urpme ", "slackpkg install ", "slapt-get --install ", "netpkg ", "equo install ", "pacman -S ", "eopkg install ", "apk add ", "smart install ", "pkcon install ", "emerge ", "lin ", "cast ", "nix-env -i ", "xbps-install ", "snap install ", "pkg_add -r ", "pkg install " ]
-    package_manager_command = pacman_names[1]
+    pacman_names = ["apt-get purge -y ", "customizer-uninstall "]
+    package_manager_command = pacman_names[0]
 
     if subprocess.check_output(['uname', '-o']).strip() == b'Android':
         # This expects a path to an .apk file and root (sudo) privileges assuming rooted android device
         if subprocess.check_output(['whoami']).strip() == b'root':
             print("Device is rooted")
-            package_manager_command = "pm install "
+            package_manager_command = "pm uninstall "
         else:
             print("Not rooted device")
-            package_manager_command = "pkg install "
+            package_manager_command = "pkg uninstall "
 
     return package_manager_command
 
 
 def package_oswindows():
-
-    pacman_names = ["winget install --accept-package-agreements --accept-source-agreements -h -s winget -q ", "choco install -f -y "]
+    pacman_names = ["winget uninstall --accept-package-agreements --accept-source-agreements -h -s winget -q ",
+                    "choco uninstall -f -y "]
     package_manager_command = pacman_names[0]
     return package_manager_command
 
 
 def package_osmac():
-    package_manager_command = "brew install "
+    package_manager_command = "brew uninstall "
     return package_manager_command
 
 
@@ -48,7 +48,7 @@ def process_packagemanager(platf):
 
 
 if __name__ == "__main__":
-    
+
     winget_allowance_command = False
     if plat() == "Windows":
         winget_allowance_command = True
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     argument_list = sys.argv[1:]
     quer = ""
     final_query = []
-    
+
     for i in range(len(argument_list)):
         print(argument_list[i])
         final_query.append(argument_list[i])
@@ -70,4 +70,4 @@ if __name__ == "__main__":
     else:
         for i in final_query:
             quer = package_manager_command + " " + i
-            subprocess.run(quer, shell=True)   
+            subprocess.run(quer, shell=True)
