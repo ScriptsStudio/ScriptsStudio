@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 vncstart() {
-	vncserver -listen tcp 
-	vncserver -list
+  vncserver -listen tcp 
+  vncserver -list
 }
