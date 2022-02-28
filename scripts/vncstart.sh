@@ -3,3 +3,4 @@ vncstart() {
   vncserver -listen tcp 
   vncserver -list
 }
+
