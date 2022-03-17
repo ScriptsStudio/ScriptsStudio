@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'globalVariables.dart';
 import 'listAppScreen.dart';
+import 'loginScreens.dart';
 
 class installerScreen extends StatefulWidget {
   const installerScreen({key}) : super(key: key);
@@ -18,6 +19,16 @@ class _installerScreenState extends State<installerScreen> {
   void initState() {
     _choiseIndex = 0;
     super.initState();
+    String command;
+
+    if (system == 'Windows'){
+      command ="Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))";
+      onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
+    }
+    if (system == 'Linux'){
+      command = "echo ${passwordSSH} | sudo -S wget 'https://github.com/AleixMT/Linux-Auto-Customizer/archive/refs/heads/master.zip' -P \${HOME} --output-document Customizer.zip ; sudo unzip \${HOME}/Customizer.zip -d \${HOME}/ ; sudo unzip \${HOME}/Customizer ; sudo bash \${HOME}/\*Customizer\*/src/core/install.sh customizer ";
+      onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
+    }
   }
 
   final db = FirebaseFirestore.instance;

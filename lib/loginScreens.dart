@@ -24,15 +24,15 @@ class AutomaticConnectionScreen extends StatefulWidget {
 
 class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  TextEditingController userSSH;
-  TextEditingController passwordSSH;
+  TextEditingController userSSHInput;
+  TextEditingController passwordSSHInput;
 
   @override
   void initState() {
     super.initState();
     _create();
-    userSSH = TextEditingController(text: 'root');
-    passwordSSH = TextEditingController();
+    userSSHInput = TextEditingController(text: 'root');
+    passwordSSHInput = TextEditingController();
     Future.delayed(Duration(seconds: 6), () {
       setState(() {});
     });
@@ -40,21 +40,22 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
 
   @override
   void dispose() {
-    userSSH?.dispose();
-    passwordSSH?.dispose();
+    userSSHInput?.dispose();
+    passwordSSHInput?.dispose();
     super.dispose();
   }
 
   void validateToLogin(int index) {
     Future.delayed(Duration(milliseconds: 1250), () {
       if (system == 'Windows' || system == 'Linux') {
-        if (userSSH.text.isEmpty || passwordSSH.text.isEmpty) {
+        if (userSSHInput.text.isEmpty || passwordSSHInput.text.isEmpty) {
           _scaffoldKey.currentState.showSnackBar(SnackBar(
             content: Text("Rellene los campos de usuario y contraseña"),
             duration: Duration(seconds: 3),
           ));
         } else {
-          onConnectToPCSSH(ipsList[index], 22, userSSH.text, passwordSSH.text);
+
+          onConnectToPCSSH(ipsList[index], 22, userSSHInput.text, passwordSSHInput.text,'pwd');
 
           Future.delayed(Duration(milliseconds: 1250), () {
             if (connected == true) {
@@ -138,7 +139,7 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                 child: Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: TextFormField(
-                                      controller: userSSH,
+                                      controller: userSSHInput,
                                       keyboardType: TextInputType.text,
                                       decoration: InputDecoration(
                                           labelText: 'User',
@@ -151,7 +152,7 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                               child: Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: TextFormField(
-                                    controller: passwordSSH,
+                                    controller: passwordSSHInput,
                                     keyboardType: TextInputType.visiblePassword,
                                     obscureText: true,
                                     decoration: InputDecoration(
@@ -310,7 +311,7 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
           ));
         } else {
           onConnectToPCSSH(ipAddressTEC.text, int.parse(portSSHTEC.text),
-              userSSHTEC.text, passwordSSHTEC.text);
+              userSSHTEC.text, passwordSSHTEC.text,'pwd');
 
           Future.delayed(Duration(milliseconds: 1250), () {
             if (connected == true) {
@@ -500,7 +501,7 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
 }
 
 Future<void> onConnectToPCSSH(String ipAddressController, int portController,
-    String userSSHController, String passSSHController) async {
+    String userSSHController, String passSSHController,String command) async {
   String result;
   ipAddress = ipAddressController;
   portSSH = portController;
@@ -515,11 +516,13 @@ Future<void> onConnectToPCSSH(String ipAddressController, int portController,
   try {
     result = await client.connect() ?? 'Null result';
     if (result == "session_connected") {
-      result = await client.execute('sudo.exeA cleanmgr') ?? 'Null result';
+      result = await client.execute(command) ?? 'Null result';
+      print(command);
+      print(result);
+      //print(command);
+
       connected = true;
     }
-    print(result);
-    result = await client.execute("whoami");
 
     print(result);
 

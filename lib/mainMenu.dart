@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scriptstudio/installerScreen.dart';
 import 'globalVariables.dart';
 import 'listAppScreen.dart';
+import 'loginScreens.dart';
 
 class mainMenu extends StatefulWidget {
   const mainMenu({key}) : super(key: key);
@@ -12,6 +13,21 @@ class mainMenu extends StatefulWidget {
 }
 
 class _mainMenuState extends State<mainMenu> {
+  @override
+  void initState() {
+    super.initState();
+    String command;
+
+    if (system == 'Windows'){
+      command = "Invoke-WebRequest -Uri 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=ea353df2-0288-4edf-9088-167f729f24b4' -OutFile \$Env:USERPROFILE'\\ScriptsStudio.zip' ; Expand-Archive -Path \$Env:USERPROFILE'\\ScriptsStudio.zip' -DestinationPath \$Env:USERPROFILE'\\ScriptsStudio\\' ; attrib +h \$Env:USERPROFILE'\\ScriptsStudio' ; Remove-Item -Path \$Env:USERPROFILE'\\ScriptsStudio.zip'";
+          onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
+    }
+    if (system == 'Linux'){
+      command = "echo ${passwordSSH} | sudo -S wget 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=ea353df2-0288-4edf-9088-167f729f24b4' -P \${HOME} --output-document ScriptsStudio.zip ; sudo unzip \${HOME}/ScriptsStudio.zip -d \${HOME}/ScriptsStudio/ ; mv \${HOME}/ScriptsStudio \${HOME}/.ScriptsStudio ; rm \${HOME}/ScriptsStudio.zip -f";
+      onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
+    }
+
+  }
   List<String> items = [
     'Installing software',
     'Uninstalling software',

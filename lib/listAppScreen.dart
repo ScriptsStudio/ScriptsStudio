@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:scriptstudio/loginScreens.dart';
 
 import 'globalVariables.dart';
 
@@ -15,7 +16,19 @@ class _listAppScreenState extends State<listAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          String appsConcatena;
+          appsConcatena = applicationsSelected.values.join(' ');
+          String command;
+          if (system == 'Linux') {
+            command = 'echo ${passwordSSH} | sudo -S python3 .ScriptsStudio/install.py ${appsConcatena}';
+          } else {
+            command = 'python.exe ScriptsStudio\\install.py ${appsConcatena}';
+          }
+
+          //print(command);
+          onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
+        },
         label: Text('INSTALAR'),
         icon: Icon(Icons.arrow_circle_down),
       ),
@@ -71,15 +84,17 @@ class _listAppScreenState extends State<listAppScreen> {
                               style: Theme.of(context).textTheme.subtitle1),
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height/1.35,
+                          height: MediaQuery.of(context).size.height / 1.35,
                           child: new Expanded(
                               child: new ListView.builder(
                                   itemCount: applicationsSelected.length,
-                                  itemBuilder: (BuildContext context, int index) {
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
                                     String keyMap = applicationsSelected.keys
                                         .elementAt(index);
                                     print(keyMap + 'mia');
-                                    String valuesMap = applicationsSelected.values
+                                    String valuesMap = applicationsSelected
+                                        .values
                                         .elementAt(index);
                                     print(valuesMap + 'nia');
                                     return Column(children: [
@@ -107,11 +122,15 @@ class _listAppScreenState extends State<listAppScreen> {
                                                             applicationsSelected
                                                                 .remove(keyMap);
                                                           });
-                                                          Scaffold.of(context).showSnackBar(SnackBar(
-                                                            content: Text("Se ha eliminado ${keyMap} correctamente de la lista"),
-                                                            duration: Duration(seconds: 3),
+                                                          Scaffold.of(context)
+                                                              .showSnackBar(
+                                                                  SnackBar(
+                                                            content: Text(
+                                                                "Se ha eliminado ${keyMap} correctamente de la lista"),
+                                                            duration: Duration(
+                                                                seconds: 3),
                                                           ));
-                                                           },
+                                                        },
                                                         child: Text(
                                                           'ELIMINAR',
                                                           style: TextStyle(
@@ -139,5 +158,4 @@ class _listAppScreenState extends State<listAppScreen> {
       )),
     );
   }
-
 }
