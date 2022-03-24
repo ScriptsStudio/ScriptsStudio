@@ -12,26 +12,12 @@ class listAppScreen extends StatefulWidget {
 }
 
 class _listAppScreenState extends State<listAppScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          String appsConcatena;
-          appsConcatena = applicationsSelected.values.join(' ');
-          String command;
-          if (system == 'Linux') {
-            command = 'echo ${passwordSSH} | sudo -S python3 .ScriptsStudio/install.py ${appsConcatena}';
-          } else {
-            command = 'python.exe ScriptsStudio\\install.py ${appsConcatena}';
-          }
-
-          //print(command);
-          onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
-        },
-        label: Text('INSTALAR'),
-        icon: Icon(Icons.arrow_circle_down),
-      ),
+      key: _scaffoldKey,
       body: SafeArea(
           child: Column(
         children: [
@@ -78,13 +64,12 @@ class _listAppScreenState extends State<listAppScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, top: 20.0, right: 20.0),
+                          padding: const EdgeInsets.all(20),
                           child: Text('Aplicaciones seleccionadas',
                               style: Theme.of(context).textTheme.subtitle1),
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height / 1.35,
+                          height: MediaQuery.of(context).size.height / 1.60,
                           child: new Expanded(
                               child: new ListView.builder(
                                   itemCount: applicationsSelected.length,
@@ -146,7 +131,73 @@ class _listAppScreenState extends State<listAppScreen> {
                                       ),
                                     ]);
                                   })),
-                        )
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 70,
+                            width: MediaQuery.of(context).size.width,
+                            alignment: Alignment.center,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.redAccent,
+                                  minimumSize: Size(double.infinity, 50),
+                                  shape: StadiumBorder()),
+                              onPressed: () async {
+                                if (applicationsSelected.isNotEmpty) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  String appsConcatena;
+                                  appsConcatena =
+                                      applicationsSelected.values.join(' ');
+                                  String command;
+                                  if (system == 'Linux') {
+                                    command =
+                                        'echo ${passwordSSH} | sudo -S python3 .ScriptsStudio/install.py ${appsConcatena}';
+                                  } else {
+                                    command =
+                                        'python.exe \$Env:USERPROFILE\\ScriptsStudio\\install.py ${appsConcatena} ';
+                                  }
+                                  _scaffoldKey.currentState
+                                      .showSnackBar(SnackBar(
+                                    content: Text("Iniciando instalación..."),
+                                    duration: Duration(seconds: 3),
+                                  ));
+                                  result = await client.execute(command) ??
+                                      'Null result';
+                                  print(result);
+                                  setState(() {
+                                    isLoading = false;
+                                    applicationsSelected.clear();
+                                  });
+                                  _scaffoldKey.currentState
+                                      .showSnackBar(SnackBar(
+                                    content:
+                                        Text("Ha finalizado la instalación"),
+                                    duration: Duration(seconds: 3),
+                                  ));
+                                } else {
+                                  _scaffoldKey.currentState
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                        "No hay ninguna aplicación para instalar"),
+                                    duration: Duration(seconds: 3),
+                                  ));
+                                }
+                              },
+                              child: (isLoading)
+                                  ? const SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 1.5,
+                                      ))
+                                  : const Text('INSTALAR'),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

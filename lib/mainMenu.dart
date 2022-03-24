@@ -21,29 +21,39 @@ class _mainMenuState extends State<mainMenu> {
     if (system == 'Windows'){
       command = "Invoke-WebRequest -Uri 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=ea353df2-0288-4edf-9088-167f729f24b4' -OutFile \$Env:USERPROFILE'\\ScriptsStudio.zip' ; Expand-Archive -Path \$Env:USERPROFILE'\\ScriptsStudio.zip' -DestinationPath \$Env:USERPROFILE'\\ScriptsStudio\\' ; attrib +h \$Env:USERPROFILE'\\ScriptsStudio' ; Remove-Item -Path \$Env:USERPROFILE'\\ScriptsStudio.zip'";
           onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
+      categoriesButtons = {
+        'Installing software': installerScreen(),
+        'Uninstalling bloatware': listAppScreen(),
+        'Upgrades': listAppScreen(),
+        'Log out': listAppScreen(),
+      };
     }
     if (system == 'Linux'){
       command = "echo ${passwordSSH} | sudo -S wget 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=ea353df2-0288-4edf-9088-167f729f24b4' -P \${HOME} --output-document ScriptsStudio.zip ; sudo unzip \${HOME}/ScriptsStudio.zip -d \${HOME}/ScriptsStudio/ ; mv \${HOME}/ScriptsStudio \${HOME}/.ScriptsStudio ; rm \${HOME}/ScriptsStudio.zip -f";
       onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
+      categoriesButtons = {
+        'Installing software': installerScreen(),
+        'Upgrades': listAppScreen(),
+        'Log out': listAppScreen(),
+      };
     }
 
   }
-  List<String> items = [
+  var categoriesButtons = {};
+ /* List<String> items = [
     'Installing software',
     'Uninstalling software',
     'Customization',
     'Cleaning',
     'Optimization',
     'Command Console'
-  ];
-  var categoriesButtons = {
+  ];*/
+  /*var categoriesButtons = {
     'Installing software': installerScreen(),
     'Uninstalling software': listAppScreen(),
     'Customization': listAppScreen(),
     'Cleaning': listAppScreen(),
-    'Optimization': listAppScreen(),
-    'Command Console': listAppScreen()
-  };
+  };*/
 
   Widget buttonMain(String data, var screenRoute) {
     return Padding(

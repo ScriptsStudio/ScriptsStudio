@@ -524,9 +524,10 @@ Future<void> onConnectToPCSSH(String ipAddressController, int portController,
       connected = true;
     }
 
+
+    //result = await client.disconnect() ?? 'Desconectado';
     print(result);
 
-    await client.disconnect();
   } on PlatformException catch (e) {
     String errorMessage = 'Error: ${e.code}\nError Message: ${e.message}';
     result = errorMessage;

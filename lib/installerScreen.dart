@@ -1,8 +1,7 @@
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'globalVariables.dart';
 import 'listAppScreen.dart';
 import 'loginScreens.dart';
@@ -21,12 +20,14 @@ class _installerScreenState extends State<installerScreen> {
     super.initState();
     String command;
 
-    if (system == 'Windows'){
-      command ="Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))";
+    if (system == 'Windows') {
+      command =
+          "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))";
       onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
     }
-    if (system == 'Linux'){
-      command = "echo ${passwordSSH} | sudo -S wget 'https://github.com/AleixMT/Linux-Auto-Customizer/archive/refs/heads/master.zip' -P \${HOME} --output-document Customizer.zip ; sudo unzip \${HOME}/Customizer.zip -d \${HOME}/ ; sudo unzip \${HOME}/Customizer ; sudo bash \${HOME}/\*Customizer\*/src/core/install.sh customizer ";
+    if (system == 'Linux') {
+      command =
+          "echo ${passwordSSH} | sudo -S wget 'https://github.com/AleixMT/Linux-Auto-Customizer/archive/refs/heads/master.zip' -P \${HOME} --output-document Customizer.zip ; sudo unzip \${HOME}/Customizer.zip -d \${HOME}/ ; sudo unzip \${HOME}/Customizer ; sudo bash \${HOME}/\*Customizer\*/src/core/install.sh customizer ";
       onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
     }
   }
@@ -100,7 +101,7 @@ class _installerScreenState extends State<installerScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
+            padding: const EdgeInsets.only(left: 20.0, top: 15.0, right: 20.0),
             child: Text(title + data,
                 style: Theme.of(context).textTheme.subtitle2),
           ),
@@ -196,7 +197,6 @@ class _installerScreenState extends State<installerScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -253,18 +253,25 @@ class _installerScreenState extends State<installerScreen> {
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 20.0, top: 20.0, right: 20.0),
-                              child: Text('Installer',
+                              child: Text('Instalador',
                                   style: Theme.of(context).textTheme.subtitle1),
                             ),
-                            TextButton(
-                                onPressed: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              listAppScreen()),
-                                    ),
-                                child: Text('Ver las apps seleccionadas')),
-                            _buildChoiceChips(),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, top: 5.0, right: 10.0),
+                              child: TextButton(
+                                  onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                listAppScreen()),
+                                      ),
+                                  child: Text(
+                                    'Ver las apps seleccionadas',
+                                    style: TextStyle(color: Colors.redAccent),
+                                  )),
+                            ),
+                            //  _buildChoiceChips(),
                             for (var nick in developersNick)
                               listsAppsWidget(
                                   nick, 'recomendedBy', 'Recommended by '),

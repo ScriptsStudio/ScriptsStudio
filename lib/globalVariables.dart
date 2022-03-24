@@ -7,4 +7,5 @@ String passwordSSH;
 String system;
 bool connected = false;
 var client;
+String result;
 var applicationsSelected = new Map();
