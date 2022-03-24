@@ -2,127 +2,51 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:scriptstudio/listBloatwareScreen.dart';
 import 'globalVariables.dart';
 import 'listAppScreen.dart';
 import 'loginScreens.dart';
 
-class installerScreen extends StatefulWidget {
-  const installerScreen({key}) : super(key: key);
+class uBloatwareScreen extends StatefulWidget {
+  const uBloatwareScreen({key}) : super(key: key);
 
   @override
-  _installerScreenState createState() => _installerScreenState();
+  _uBloatwareScreenState createState() => _uBloatwareScreenState();
 }
 
-class _installerScreenState extends State<installerScreen> {
+class _uBloatwareScreenState extends State<uBloatwareScreen> {
   @override
   void initState() {
-    _choiseIndex = 0;
     super.initState();
-    String command;
-
-    if (system == 'Windows') {
-      command =
-          "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))";
-      onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
-    }
-    if (system == 'Linux') {
-      command =
-          "echo ${passwordSSH} | sudo -S wget 'https://github.com/AleixMT/Linux-Auto-Customizer/archive/refs/heads/master.zip' -P \${HOME} --output-document Customizer.zip ; sudo unzip \${HOME}/Customizer.zip -d \${HOME}/ ; sudo unzip \${HOME}/Customizer ; sudo bash \${HOME}/\*Customizer\*/src/core/install.sh customizer ";
-      onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
-    }
   }
+
   final db = FirebaseFirestore.instance;
-  //List<String> applicationsSelected = [];
 
-  List<String> categoriesAppsWindows = [
-    'Productivity',
-    'Social',
-    'Utilities',
-    'Entertainment',
-    'Games',
-    'Development',
-    'Security',
-    'Photo and Video',
-    'Music and Audio',
-    'Art and Design',
-  ];
-  List<String> categoriesAppsLinux = [
-    'Productivity',
-    'Social',
-    'Utilities',
-    'Entertainment',
-    'Games',
-    'Development',
-    'Security',
-    'Photo and Video',
-    'Music and Audio',
-    'Art and Design',
-    'Functions',
-    'GitFunctions',
-    'Wrappers'
-  ];
-  String systemSelected = 'Windows';
-  List<String> developersNick = ['XRuppy', 'Axlfc'];
-  List<String> systemsList = ['Windows', 'Linux'];
-  int _choiseIndex;
-
-  Widget _buildChoiceChips() {
-    return Container(
-      height: MediaQuery.of(context).size.height / 8,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: systemsList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ChoiceChip(
-              label: Text(systemsList[index]),
-              selected: _choiseIndex == index,
-              selectedColor: Colors.redAccent,
-              onSelected: (bool selected) {
-                setState(() {
-                  _choiseIndex = selected ? index : 0;
-                  systemSelected = systemsList[index];
-                });
-              },
-              backgroundColor: Colors.black12,
-              labelStyle: TextStyle(color: Colors.white),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget listsAppsWidget(String data, String filter, String title) {
+  Widget listsAppsWidget() {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 15.0, right: 20.0),
-            child: Text(title + data,
-                style: Theme.of(context).textTheme.subtitle2),
-          ),
           StreamBuilder(
-            stream: db
-                .collection('Applications')
-                .where(filter, isEqualTo: data)
-                .where('system', arrayContains: systemSelected)
-                .snapshots(),
+            stream: db.collection('Bloatware').snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(
-                  child: CircularProgressIndicator(color: Colors.redAccent,
-                    strokeWidth: 1.5,),
+                  child: CircularProgressIndicator(
+                    color: Colors.redAccent,
+                    strokeWidth: 1.5,
+                  ),
                 );
               }
               List<DocumentSnapshot> docs = snapshot.data.docs;
               return Container(
-                height: 150,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
+                height: MediaQuery.of(context).size.height / 1.60,
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio:1.2,
+                      mainAxisSpacing: 5,
+                      crossAxisSpacing: 5),
                   itemCount: docs.length,
                   itemBuilder: (_, i) {
                     Map<String, dynamic> data = docs[i].data();
@@ -164,10 +88,10 @@ class _installerScreenState extends State<installerScreen> {
                                       style:
                                           Theme.of(context).textTheme.button),
                                   onPressed: () {
-                                    print(data['nameDisplay'] + 'hola');
-                                    applicationsSelected[data['nameDisplay']] =
-                                        data['name' + systemSelected];
-                                    print(applicationsSelected);
+                                    print(data['nameDisplay']);
+                                    bloatwareSelected[data['nameDisplay']] =
+                                        data['nameSystem'];
+                                    print(bloatwareSelected);
 
                                     Scaffold.of(context).showSnackBar(SnackBar(
                                       content: Text(
@@ -253,7 +177,7 @@ class _installerScreenState extends State<installerScreen> {
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 20.0, top: 20.0, right: 20.0),
-                              child: Text('Instalador',
+                              child: Text('Desinstalador de Bloatware',
                                   style: Theme.of(context).textTheme.subtitle1),
                             ),
                             Padding(
@@ -264,23 +188,14 @@ class _installerScreenState extends State<installerScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                listAppScreen()),
+                                                listBloatwareScreen()),
                                       ),
                                   child: Text(
                                     'Ver las apps seleccionadas',
                                     style: TextStyle(color: Colors.redAccent),
                                   )),
                             ),
-                            //  _buildChoiceChips(),
-                            for (var nick in developersNick)
-                              listsAppsWidget(
-                                  nick, 'recomendedBy', 'Recommended by '),
-                            if (systemSelected == 'Windows')
-                              for (var category in categoriesAppsWindows)
-                                listsAppsWidget(category, 'tag', ''),
-                            if (systemSelected == 'Linux')
-                              for (var category in categoriesAppsLinux)
-                                listsAppsWidget(category, 'tag', ''),
+                            listsAppsWidget(),
                           ],
                         ),
                       ],

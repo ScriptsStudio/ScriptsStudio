@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scriptstudio/installerScreen.dart';
+import 'package:scriptstudio/uBloatwareScreen.dart';
 import 'globalVariables.dart';
 import 'listAppScreen.dart';
 import 'loginScreens.dart';
@@ -18,42 +19,28 @@ class _mainMenuState extends State<mainMenu> {
     super.initState();
     String command;
 
-    if (system == 'Windows'){
-      command = "Invoke-WebRequest -Uri 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=ea353df2-0288-4edf-9088-167f729f24b4' -OutFile \$Env:USERPROFILE'\\ScriptsStudio.zip' ; Expand-Archive -Path \$Env:USERPROFILE'\\ScriptsStudio.zip' -DestinationPath \$Env:USERPROFILE'\\ScriptsStudio\\' ; attrib +h \$Env:USERPROFILE'\\ScriptsStudio' ; Remove-Item -Path \$Env:USERPROFILE'\\ScriptsStudio.zip'";
-          onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
+    if (system == 'Windows') {
+      command =
+          "Invoke-WebRequest -Uri 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=b5df0cdb-28f5-4580-b3aa-d97527320714' -OutFile \$Env:USERPROFILE'\\ScriptsStudio.zip' ; Expand-Archive -Path \$Env:USERPROFILE'\\ScriptsStudio.zip' -DestinationPath \$Env:USERPROFILE'\\ScriptsStudio\\' ; attrib +h \$Env:USERPROFILE'\\ScriptsStudio' ; Remove-Item -Path \$Env:USERPROFILE'\\ScriptsStudio.zip'";
+      onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
       categoriesButtons = {
         'Installing software': installerScreen(),
-        'Uninstalling bloatware': listAppScreen(),
+        'Uninstalling bloatware': uBloatwareScreen(),
         'Upgrades': listAppScreen(),
-        'Log out': listAppScreen(),
       };
     }
-    if (system == 'Linux'){
-      command = "echo ${passwordSSH} | sudo -S wget 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=ea353df2-0288-4edf-9088-167f729f24b4' -P \${HOME} --output-document ScriptsStudio.zip ; sudo unzip \${HOME}/ScriptsStudio.zip -d \${HOME}/ScriptsStudio/ ; mv \${HOME}/ScriptsStudio \${HOME}/.ScriptsStudio ; rm \${HOME}/ScriptsStudio.zip -f";
+    if (system == 'Linux') {
+      command =
+          "echo ${passwordSSH} | sudo -S wget 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=b5df0cdb-28f5-4580-b3aa-d97527320714' -P \${HOME} --output-document ScriptsStudio.zip ; sudo unzip \${HOME}/ScriptsStudio.zip -d \${HOME}/ScriptsStudio/ ; mv \${HOME}/ScriptsStudio \${HOME}/.ScriptsStudio ; rm \${HOME}/ScriptsStudio.zip -f";
       onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
       categoriesButtons = {
         'Installing software': installerScreen(),
         'Upgrades': listAppScreen(),
-        'Log out': listAppScreen(),
       };
     }
-
   }
+
   var categoriesButtons = {};
- /* List<String> items = [
-    'Installing software',
-    'Uninstalling software',
-    'Customization',
-    'Cleaning',
-    'Optimization',
-    'Command Console'
-  ];*/
-  /*var categoriesButtons = {
-    'Installing software': installerScreen(),
-    'Uninstalling software': listAppScreen(),
-    'Customization': listAppScreen(),
-    'Cleaning': listAppScreen(),
-  };*/
 
   Widget buttonMain(String data, var screenRoute) {
     return Padding(
@@ -101,14 +88,33 @@ class _mainMenuState extends State<mainMenu> {
                   child: Text("SÍ"),
                   textColor: Colors.redAccent,
                   onPressed: () {
-                    connected = false;
-                    system = null;
-                    ipAddress = null;
-                    portSSH = null;
-                    userSSH = null;
-                    passwordSSH = null;
-                    client.disconnect();
-                    Navigator.of(context).pop(true);
+                    if (system == 'Windows') {
+                      String command;
+                      command =
+                          "Remove-Item -Path \$Env:USERPROFILE'\\ScriptsStudio\' -Force -Recurse";
+                      onConnectToPCSSH(
+                          ipAddress, portSSH, userSSH, passwordSSH, command);
+                    }
+                    if (system == 'Linux') {
+                      String command;
+                      command =
+                          "echo ${passwordSSH} | sudo -S rm -R \${HOME}/ScriptsStudio";
+                      onConnectToPCSSH(
+                          ipAddress, portSSH, userSSH, passwordSSH, command);
+                    }
+                    Future.delayed(Duration(seconds: 2), () {
+                      connected = false;
+                      system = null;
+                      ipAddress = null;
+                      portSSH = null;
+                      userSSH = null;
+                      passwordSSH = null;
+                      applicationsSelected.clear();
+                      bloatwareSelected.clear();
+                      result = client.disconnect() ?? 'Desconectado';
+                      print(result);
+                      Navigator.of(context).pop(true);
+                    });
                   }),
             ],
           ),
@@ -180,22 +186,79 @@ class _mainMenuState extends State<mainMenu> {
                               child: Text('What do you want to do?',
                                   style: Theme.of(context).textTheme.subtitle2),
                             ),
-                            Expanded(
-                              flex: 2,
+                            Container(
+                              height: MediaQuery.of(context).size.height / 4,
+                              child: Expanded(
+                                flex: 2,
+                                child: new ListView.builder(
+                                    itemCount: categoriesButtons.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Column(children: [
+                                        buttonMain(
+                                            categoriesButtons.keys
+                                                .elementAt(index),
+                                            categoriesButtons.values
+                                                .elementAt(index)),
+
+                                      ]);
+                                    }),
+                              ),
+                            ),
+                            Center(
                               child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: new ListView.builder(
-                                      itemCount: categoriesButtons.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Column(children: [
-                                          buttonMain(
-                                              categoriesButtons.keys
-                                                  .elementAt(index),
-                                              categoriesButtons.values
-                                                  .elementAt(index))
-                                        ]);
-                                      })),
+                                padding: const EdgeInsets.all(8.0),
+                                child: ElevatedButton.icon(
+                                  onPressed: () async {
+
+                                    if (system == 'Windows') {
+                                      String command;
+                                      command =
+                                      "Remove-Item -Path \$Env:USERPROFILE'\\ScriptsStudio\' -Force -Recurse";
+                                      onConnectToPCSSH(
+                                          ipAddress, portSSH, userSSH, passwordSSH, command);
+                                    }
+                                    if (system == 'Linux') {
+                                      String command;
+                                      command =
+                                      "echo ${passwordSSH} | sudo -S rm -R \${HOME}/ScriptsStudio";
+                                      onConnectToPCSSH(
+                                          ipAddress, portSSH, userSSH, passwordSSH, command);
+                                    }
+                                    Future.delayed(Duration(seconds: 2), () {
+                                      connected = false;
+                                      system = null;
+                                      ipAddress = null;
+                                      portSSH = null;
+                                      userSSH = null;
+                                      passwordSSH = null;
+                                      applicationsSelected.clear();
+                                      bloatwareSelected.clear();
+                                      result = client.disconnect() ?? 'Desconectado';
+                                      print(result);
+                                      Navigator.of(context).pop(true);
+                                    });
+
+                                  },
+                                  icon: Icon(Icons.navigate_next),
+                                  label: Text(
+                                    'Log out',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                      fixedSize:
+                                      const Size(300, 50),
+                                      primary: Colors.redAccent,
+                                      shape:
+                                      new RoundedRectangleBorder(
+                                        borderRadius:
+                                        new BorderRadius
+                                            .circular(15.0),
+                                      )),
+                                ),
+                              ),
                             )
                           ],
                         ),
