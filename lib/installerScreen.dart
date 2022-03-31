@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:scriptstudio/languajes.dart';
 import 'globalVariables.dart';
 import 'listAppScreen.dart';
 import 'loginScreens.dart';
@@ -16,7 +17,6 @@ class installerScreen extends StatefulWidget {
 class _installerScreenState extends State<installerScreen> {
   @override
   void initState() {
-    _choiseIndex = 0;
     super.initState();
     String command;
 
@@ -27,72 +27,15 @@ class _installerScreenState extends State<installerScreen> {
     }
     if (system == 'Linux') {
       command =
-          "echo ${passwordSSH} | sudo -S wget 'https://github.com/AleixMT/Linux-Auto-Customizer/archive/refs/heads/master.zip' -P \${HOME} --output-document Customizer.zip ; sudo unzip \${HOME}/Customizer.zip -d \${HOME}/ ; sudo unzip \${HOME}/Customizer ; sudo bash \${HOME}/\*Customizer\*/src/core/install.sh customizer ";
+          "echo ${passwordSSH} | sudo -S wget 'https://github.com/AleixMT/Linux-Auto-Customizer/archive/refs/heads/master.zip' -P \${HOME} --output-document Customizer.zip ; sudo unzip \${HOME}/Customizer.zip -d \${HOME}/ ; sudo unzip \${HOME}/Customizer ; sudo bash \${HOME}/*Customizer*/src/core/install.sh -v -o -k customizer";
       onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
     }
   }
-  final db = FirebaseFirestore.instance;
-  //List<String> applicationsSelected = [];
 
-  List<String> categoriesAppsWindows = [
-    'Productivity',
-    'Social',
-    'Utilities',
-    'Entertainment',
-    'Games',
-    'Development',
-    'Security',
-    'Photo and Video',
-    'Music and Audio',
-    'Art and Design',
-  ];
-  List<String> categoriesAppsLinux = [
-    'Productivity',
-    'Social',
-    'Utilities',
-    'Entertainment',
-    'Games',
-    'Development',
-    'Security',
-    'Photo and Video',
-    'Music and Audio',
-    'Art and Design',
-    'Functions',
-    'GitFunctions',
-    'Wrappers'
-  ];
-  String systemSelected = 'Windows';
+  final db = FirebaseFirestore.instance;
+
   List<String> developersNick = ['XRuppy', 'Axlfc'];
   List<String> systemsList = ['Windows', 'Linux'];
-  int _choiseIndex;
-
-  Widget _buildChoiceChips() {
-    return Container(
-      height: MediaQuery.of(context).size.height / 8,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: systemsList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ChoiceChip(
-              label: Text(systemsList[index]),
-              selected: _choiseIndex == index,
-              selectedColor: Colors.redAccent,
-              onSelected: (bool selected) {
-                setState(() {
-                  _choiseIndex = selected ? index : 0;
-                  systemSelected = systemsList[index];
-                });
-              },
-              backgroundColor: Colors.black12,
-              labelStyle: TextStyle(color: Colors.white),
-            ),
-          );
-        },
-      ),
-    );
-  }
 
   Widget listsAppsWidget(String data, String filter, String title) {
     return Container(
@@ -100,21 +43,23 @@ class _installerScreenState extends State<installerScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 15.0, right: 20.0),
-            child: Text(title + data,
-                style: Theme.of(context).textTheme.subtitle2),
+            padding: const EdgeInsets.only(
+                left: 20.0, top: 20.0, right: 20.0, bottom: 10),
+            child: Text(title, style: Theme.of(context).textTheme.subtitle2),
           ),
           StreamBuilder(
             stream: db
                 .collection('Applications')
                 .where(filter, isEqualTo: data)
-                .where('system', arrayContains: systemSelected)
+                .where('system', arrayContains: system)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(
-                  child: CircularProgressIndicator(color: Colors.redAccent,
-                    strokeWidth: 1.5,),
+                  child: CircularProgressIndicator(
+                    color: Colors.redAccent,
+                    strokeWidth: 1.5,
+                  ),
                 );
               }
               List<DocumentSnapshot> docs = snapshot.data.docs;
@@ -160,18 +105,21 @@ class _installerScreenState extends State<installerScreen> {
                                 Text(data['nameDisplay'],
                                     style: Theme.of(context).textTheme.caption),
                                 ElevatedButton(
-                                  child: Text('SELECT',
+                                  child: Text(
+                                      AppLocalizations.of(context)
+                                          .translate('selectButton'),
                                       style:
                                           Theme.of(context).textTheme.button),
                                   onPressed: () {
-                                    print(data['nameDisplay'] + 'hola');
+                                    print(data['nameDisplay']);
                                     applicationsSelected[data['nameDisplay']] =
-                                        data['name' + systemSelected];
+                                        data['name' + system];
                                     print(applicationsSelected);
 
                                     Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text(
-                                          "Se ha añadido ${data['nameDisplay']} a la lista"),
+                                      content: Text(data['nameDisplay'] +
+                                          AppLocalizations.of(context)
+                                              .translate('snackBarAddAppList')),
                                       duration: Duration(seconds: 2),
                                     ));
                                   },
@@ -199,7 +147,53 @@ class _installerScreenState extends State<installerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var categoriesAppsWindows = {
+      'Productivity':
+          AppLocalizations.of(context).translate('categoryAppProductivity'),
+      'Social': AppLocalizations.of(context).translate('categoryAppSocial'),
+      'Utilities':
+          AppLocalizations.of(context).translate('categoryAppUtilities'),
+      'Entertainment':
+          AppLocalizations.of(context).translate('categoryAppEntertainment'),
+      'Games': AppLocalizations.of(context).translate('categoryAppGames'),
+      'Development':
+          AppLocalizations.of(context).translate('categoryAppDevelopment'),
+      'Security': AppLocalizations.of(context).translate('categoryAppSecurity'),
+      'Photo and Video':
+          AppLocalizations.of(context).translate('categoryAppPhoto&Video'),
+      'Music and Audio':
+          AppLocalizations.of(context).translate('categoryAppMusic&Audio'),
+      'Art and Design':
+          AppLocalizations.of(context).translate('categoryAppArt&Design'),
+    };
+
+    var categoriesAppsLinux = {
+      'Productivity':
+          AppLocalizations.of(context).translate('categoryAppProductivity'),
+      'Social': AppLocalizations.of(context).translate('categoryAppSocial'),
+      'Utilities':
+          AppLocalizations.of(context).translate('categoryAppUtilities'),
+      'Entertainment':
+          AppLocalizations.of(context).translate('categoryAppEntertainment'),
+      'Games': AppLocalizations.of(context).translate('categoryAppGames'),
+      'Development':
+          AppLocalizations.of(context).translate('categoryAppDevelopment'),
+      'Security': AppLocalizations.of(context).translate('categoryAppSecurity'),
+      'Photo and Video':
+          AppLocalizations.of(context).translate('categoryAppPhoto&Video'),
+      'Music and Audio':
+          AppLocalizations.of(context).translate('categoryAppMusic&Audio'),
+      'Art and Design':
+          AppLocalizations.of(context).translate('categoryAppArt&Design'),
+      'Functions':
+          AppLocalizations.of(context).translate('categoryAppFunctions'),
+      'Git Functions':
+          AppLocalizations.of(context).translate('categoryAppGitFunctions'),
+      'Wrappers': AppLocalizations.of(context).translate('categoryAppWrappers'),
+    };
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
           child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -253,7 +247,9 @@ class _installerScreenState extends State<installerScreen> {
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 20.0, top: 20.0, right: 20.0),
-                              child: Text('Instalador',
+                              child: Text(
+                                  AppLocalizations.of(context)
+                                      .translate('installerTitle'),
                                   style: Theme.of(context).textTheme.subtitle1),
                             ),
                             Padding(
@@ -271,16 +267,27 @@ class _installerScreenState extends State<installerScreen> {
                                     style: TextStyle(color: Colors.redAccent),
                                   )),
                             ),
-                            //  _buildChoiceChips(),
-                            for (var nick in developersNick)
-                              listsAppsWidget(
-                                  nick, 'recomendedBy', 'Recommended by '),
-                            if (systemSelected == 'Windows')
-                              for (var category in categoriesAppsWindows)
-                                listsAppsWidget(category, 'tag', ''),
-                            if (systemSelected == 'Linux')
-                              for (var category in categoriesAppsLinux)
-                                listsAppsWidget(category, 'tag', ''),
+                            listsAppsWidget(
+                                'XRuppy',
+                                'recomendedBy',
+                                AppLocalizations.of(context)
+                                    .translate('ourRecommendations')),
+                            if (system == 'Windows')
+                              for (var i = 0;
+                                  i < categoriesAppsWindows.length;
+                                  i++)
+                                listsAppsWidget(
+                                    categoriesAppsWindows.keys.elementAt(i),
+                                    'tag',
+                                    categoriesAppsWindows.values.elementAt(i)),
+                            if (system == 'Linux')
+                              for (var i = 0;
+                                  i < categoriesAppsLinux.length;
+                                  i++)
+                                listsAppsWidget(
+                                    categoriesAppsLinux.keys.elementAt(i),
+                                    'tag',
+                                    categoriesAppsLinux.values.elementAt(i)),
                           ],
                         ),
                       ],

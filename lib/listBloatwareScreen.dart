@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scriptstudio/loginScreens.dart';
 
 import 'globalVariables.dart';
+import 'languajes.dart';
 
 class listBloatwareScreen extends StatefulWidget {
   const listBloatwareScreen({key}) : super(key: key);
@@ -65,71 +66,71 @@ class _listBloatwareScreenState extends State<listBloatwareScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(20),
-                          child: Text('Aplicaciones seleccionadas',
+                          child: Text(AppLocalizations.of(context)
+                              .translate('selectedApplications'),
                               style: Theme.of(context).textTheme.subtitle1),
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height / 1.60,
-                          child: new Expanded(
-                              child: new ListView.builder(
-                                  itemCount: bloatwareSelected.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    String keyMap = bloatwareSelected.keys
-                                        .elementAt(index);
-                                    print(keyMap + 'mia');
-                                    String valuesMap = bloatwareSelected
-                                        .values
-                                        .elementAt(index);
-                                    print(valuesMap + 'nia');
-                                    return Column(children: [
-                                      Padding(
+                          child: new ListView.builder(
+                              itemCount: bloatwareSelected.length,
+                              itemBuilder:
+                                  (BuildContext context, int index) {
+                                String keyMap = bloatwareSelected.keys
+                                    .elementAt(index);
+                                print(keyMap + 'mia');
+                                String valuesMap = bloatwareSelected
+                                    .values
+                                    .elementAt(index);
+                                print(valuesMap + 'nia');
+                                return Column(children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Card(
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10),
+                                      ),
+                                      child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Card(
-                                          elevation: 5,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              children: [
-                                                ListTile(
-                                                  title: Text(keyMap),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            bloatwareSelected
-                                                                .remove(keyMap);
-                                                          });
-                                                          Scaffold.of(context)
-                                                              .showSnackBar(
-                                                                  SnackBar(
-                                                            content: Text(
-                                                                "Se ha eliminado ${keyMap} correctamente de la lista"),
-                                                            duration: Duration(
-                                                                seconds: 3),
-                                                          ));
-                                                        },
-                                                        child: Text(
-                                                          'ELIMINAR',
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .redAccent),
-                                                        )),
-                                                  ],
-                                                )
-                                              ],
+                                        child: Column(
+                                          children: [
+                                            ListTile(
+                                              title: Text(keyMap),
                                             ),
-                                          ),
+                                            Row(
+                                              children: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        bloatwareSelected
+                                                            .remove(keyMap);
+                                                      });
+                                                      Scaffold.of(context)
+                                                          .showSnackBar(
+                                                              SnackBar(
+                                                        content: Text(AppLocalizations.of(context)
+                                                            .translate('removeListSnackBar')),
+                                                        duration: Duration(
+                                                            seconds: 3),
+                                                      ));
+                                                    },
+                                                    child: Text(AppLocalizations.of(context)
+                                                        .translate('deleteButton'),
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .redAccent),
+                                                    )),
+                                              ],
+                                            )
+                                          ],
                                         ),
                                       ),
-                                    ]);
-                                  })),
+                                    ),
+                                  ),
+                                ]);
+                              }),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -160,11 +161,12 @@ class _listBloatwareScreenState extends State<listBloatwareScreen> {
                                   }
                                   _scaffoldKey.currentState
                                       .showSnackBar(SnackBar(
-                                    content: Text("Iniciando desintalación..."),
+                                    content: Text(AppLocalizations.of(context)
+                                        .translate('startUninstallerSnackBar')),
                                     duration: Duration(seconds: 3),
                                   ));
-                                  result = await client.execute(command) ??
-                                      'Null result';
+                                  await onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
+                                 // result = await client.execute(command) ?? 'Null result';
                                   print(result);
                                   setState(() {
                                     isLoading = false;
@@ -173,14 +175,15 @@ class _listBloatwareScreenState extends State<listBloatwareScreen> {
                                   _scaffoldKey.currentState
                                       .showSnackBar(SnackBar(
                                     content:
-                                        Text("Ha finalizado la desinstalación"),
+                                        Text(AppLocalizations.of(context)
+                                            .translate('endUninstalleSnackBar')),
                                     duration: Duration(seconds: 3),
                                   ));
                                 } else {
                                   _scaffoldKey.currentState
                                       .showSnackBar(SnackBar(
-                                    content: Text(
-                                        "No hay ninguna aplicación para desinstalar"),
+                                    content: Text(AppLocalizations.of(context)
+                                        .translate('listAppEmptyUninstallSnackBar')),
                                     duration: Duration(seconds: 3),
                                   ));
                                 }
@@ -193,7 +196,8 @@ class _listBloatwareScreenState extends State<listBloatwareScreen> {
                                         color: Colors.white,
                                         strokeWidth: 1.5,
                                       ))
-                                  : const Text('DESINSTALAR'),
+                                  :  Text(AppLocalizations.of(context)
+                                  .translate('uninstallButton')),
                             ),
                           ),
                         ),

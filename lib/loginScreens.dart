@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'languajes.dart';
+
 List ipsListDraft = [];
 List hostnameListDraft = [];
 Dsm dsm = Dsm();
@@ -50,14 +52,15 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
       if (system == 'Windows' || system == 'Linux') {
         if (userSSHInput.text.isEmpty || passwordSSHInput.text.isEmpty) {
           _scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text("Rellene los campos de usuario y contraseña"),
+            content: Text(AppLocalizations.of(context)
+                .translate('snackBarNoEmptyUserPassword')),
             duration: Duration(seconds: 3),
           ));
         } else {
+          onConnectToPCSSH(ipsList[index], 22, userSSHInput.text,
+              passwordSSHInput.text, 'pwd');
 
-          onConnectToPCSSH(ipsList[index], 22, userSSHInput.text, passwordSSHInput.text,'pwd');
-
-          Future.delayed(Duration(milliseconds: 1250), () {
+          Future.delayed(Duration(seconds: 2), () {
             if (connected == true) {
               Navigator.push(
                 context,
@@ -65,8 +68,8 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
               );
             } else {
               _scaffoldKey.currentState.showSnackBar(SnackBar(
-                content: Text(
-                    "No se ha podido establecer conexión con el dispositivo"),
+                content: Text(AppLocalizations.of(context)
+                    .translate('snackBarUnableToEstablishConnection')),
                 duration: Duration(seconds: 3),
               ));
             }
@@ -81,6 +84,7 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       body: SafeArea(
           child: SingleChildScrollView(
@@ -130,7 +134,8 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 20.0, top: 20.0, right: 20.0),
-                          child: Text('Automatic connection',
+                          child: Text(AppLocalizations.of(context)
+                              .translate('titleAutomaticConnection'),
                               style: Theme.of(context).textTheme.subtitle1),
                         ),
                         Row(
@@ -142,7 +147,8 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                       controller: userSSHInput,
                                       keyboardType: TextInputType.text,
                                       decoration: InputDecoration(
-                                          labelText: 'User',
+                                          labelText: AppLocalizations.of(context)
+                                              .translate('userTextInput'),
                                           icon: Icon(
                                             Icons.supervised_user_circle,
                                             color: Colors.redAccent,
@@ -156,7 +162,8 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                     keyboardType: TextInputType.visiblePassword,
                                     obscureText: true,
                                     decoration: InputDecoration(
-                                        labelText: 'Password',
+                                        labelText: AppLocalizations.of(context)
+                                            .translate('passwordTextInput'),
                                         icon: Icon(
                                           Icons.password,
                                           color: Colors.redAccent,
@@ -174,8 +181,8 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                         builder: (context) =>
                                             manual_Connection_Screen()),
                                   ),
-                              child: Text(
-                                "Can't find your device? Enter it manually",
+                              child: Text(AppLocalizations.of(context)
+                                  .translate('noFindDevice'),
                                 style: TextStyle(color: Colors.redAccent),
                               )),
                         ),
@@ -228,7 +235,8 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                                 .textTheme
                                                 .caption),
                                         ElevatedButton(
-                                          child: Text('CONNECT',
+                                          child: Text(AppLocalizations.of(context)
+                                              .translate('buttonConnect'),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .button),
@@ -306,14 +314,15 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
             userSSHTEC.text.isEmpty ||
             passwordSSHTEC.text.isEmpty) {
           _scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text("Rellene TODOS los campos"),
+            content: Text(AppLocalizations.of(context)
+                .translate('snackBarfillInAllFields')),
             duration: Duration(seconds: 3),
           ));
         } else {
           onConnectToPCSSH(ipAddressTEC.text, int.parse(portSSHTEC.text),
-              userSSHTEC.text, passwordSSHTEC.text,'pwd');
+              userSSHTEC.text, passwordSSHTEC.text, 'pwd');
 
-          Future.delayed(Duration(milliseconds: 1250), () {
+          Future.delayed(Duration(seconds: 2), () {
             if (connected == true) {
               Navigator.push(
                 context,
@@ -321,8 +330,8 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
               );
             } else {
               _scaffoldKey.currentState.showSnackBar(SnackBar(
-                content: Text(
-                    "No se ha podido establecer conexión con el dispositivo"),
+                content: Text(AppLocalizations.of(context)
+                    .translate('contentAlertDialogDetectSystem')),
                 duration: Duration(seconds: 3),
               ));
             }
@@ -337,6 +346,7 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       body: SafeArea(
           child: Column(
@@ -387,7 +397,8 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 20.0, top: 20.0, right: 20.0),
-                          child: Text('Manual connection',
+                          child: Text(AppLocalizations.of(context)
+                              .translate('titleManualConnection'),
                               style: Theme.of(context).textTheme.subtitle1),
                         ),
                         Row(
@@ -421,7 +432,8 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
                                     controller: portSSHTEC,
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
-                                      labelText: 'Port',
+                                      labelText: AppLocalizations.of(context)
+                                          .translate('portTextInput'),
                                     ),
                                   )),
                             ),
@@ -440,7 +452,8 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
                                       controller: userSSHTEC,
                                       keyboardType: TextInputType.text,
                                       decoration: InputDecoration(
-                                          labelText: 'User',
+                                          labelText: AppLocalizations.of(context)
+                                              .translate('userTextInput'),
                                           icon: Icon(
                                             Icons.supervised_user_circle,
                                             color: Colors.redAccent,
@@ -458,7 +471,8 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
                                     keyboardType: TextInputType.visiblePassword,
                                     obscureText: true,
                                     decoration: InputDecoration(
-                                        labelText: 'Password',
+                                        labelText: AppLocalizations.of(context)
+                                            .translate('passwordTextInput'),
                                         icon: Icon(
                                           Icons.password,
                                           color: Colors.redAccent,
@@ -476,8 +490,8 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
                               validateToLogin();
                             },
                             icon: Icon(Icons.navigate_next),
-                            label: Text(
-                              'Connect to PC ',
+                            label: Text(AppLocalizations.of(context)
+                                .translate('buttonConnectPC'),
                               style: Theme.of(context).textTheme.button,
                             ),
                             style: ElevatedButton.styleFrom(
@@ -501,7 +515,7 @@ class _manual_Connection_ScreenState extends State<manual_Connection_Screen> {
 }
 
 Future<void> onConnectToPCSSH(String ipAddressController, int portController,
-    String userSSHController, String passSSHController,String command) async {
+    String userSSHController, String passSSHController, String command) async {
   String result;
   ipAddress = ipAddressController;
   portSSH = portController;
@@ -519,21 +533,20 @@ Future<void> onConnectToPCSSH(String ipAddressController, int portController,
       result = await client.execute(command) ?? 'Null result';
       print(command);
       print(result);
-      //print(command);
-
       connected = true;
+    }else{
+      connected = false;
     }
-
-
-    //result = await client.disconnect() ?? 'Desconectado';
+    result = await client.disconnect() ?? 'Desconectado';
+    //connected = false;
     print(result);
-
   } on PlatformException catch (e) {
     String errorMessage = 'Error: ${e.code}\nError Message: ${e.message}';
     result = errorMessage;
     print(errorMessage);
   }
 }
+
 
 void whichSystemIsForTheTTL(String ip) {
   int numPings = 0;
@@ -629,9 +642,10 @@ Future<void> _dialogSystem(BuildContext context) async {
     context: context,
     builder: (_) {
       return AlertDialog(
-        title: Text('¡Atención!', style: Theme.of(context).textTheme.subtitle1),
-        content: Text(
-            "No se ha podido detectar el sistema automáticamente. ¿Podría indicar cual es su sistema?",
+        title: Text(AppLocalizations.of(context)
+            .translate('titleAlertDialogDetectSystem'), style: Theme.of(context).textTheme.subtitle1),
+        content: Text(AppLocalizations.of(context)
+            .translate('contentAlertDialogDetectSystem'),
             style: Theme.of(context).textTheme.bodyText1),
         actions: <Widget>[
           FlatButton(

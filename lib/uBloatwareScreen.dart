@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:scriptstudio/listBloatwareScreen.dart';
 import 'globalVariables.dart';
+import 'languajes.dart';
 import 'listAppScreen.dart';
 import 'loginScreens.dart';
 
@@ -84,7 +85,7 @@ class _uBloatwareScreenState extends State<uBloatwareScreen> {
                                 Text(data['nameDisplay'],
                                     style: Theme.of(context).textTheme.caption),
                                 ElevatedButton(
-                                  child: Text('SELECT',
+                                  child: Text(AppLocalizations.of(context).translate('selectButton'),
                                       style:
                                           Theme.of(context).textTheme.button),
                                   onPressed: () {
@@ -94,8 +95,7 @@ class _uBloatwareScreenState extends State<uBloatwareScreen> {
                                     print(bloatwareSelected);
 
                                     Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text(
-                                          "Se ha añadido ${data['nameDisplay']} a la lista"),
+                                      content: Text(AppLocalizations.of(context).translate('snackBarAddAppList')),
                                       duration: Duration(seconds: 2),
                                     ));
                                   },
@@ -177,7 +177,7 @@ class _uBloatwareScreenState extends State<uBloatwareScreen> {
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 20.0, top: 20.0, right: 20.0),
-                              child: Text('Desinstalador de Bloatware',
+                              child: Text(AppLocalizations.of(context).translate('titleBloatwareScreen'),
                                   style: Theme.of(context).textTheme.subtitle1),
                             ),
                             Padding(
@@ -190,8 +190,7 @@ class _uBloatwareScreenState extends State<uBloatwareScreen> {
                                             builder: (context) =>
                                                 listBloatwareScreen()),
                                       ),
-                                  child: Text(
-                                    'Ver las apps seleccionadas',
+                                  child: Text(AppLocalizations.of(context).translate('viewSelectedAppButton'),
                                     style: TextStyle(color: Colors.redAccent),
                                   )),
                             ),
