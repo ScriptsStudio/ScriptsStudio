@@ -47,7 +47,15 @@
   "titleBloatwareScreen": "Desinstalador de Bloatware",
   "installSoftwareButton": "Instalar programas",
   "removeSoftwareButton": "Desinstaladar bloatware",
+  "updatesButton": "Actualizaciones",
   "userTextInput": "Usuario",
   "passwordTextInput": "Contraseña",
-  "portTextInput": "Puerto"
+  "portTextInput": "Puerto",
+  "updateSystemSwitch": "Actualizar sistema operativo",
+  "updateRepositorySwitch": "Actualizar repositorios",
+  "updateSoftwareSwitch": "Actualizar el software",
+  "updateButton": "ACTUALIZAR",
+  "titleUpdateScreen": "Actualizador",
+  "startUpdateSnackBar" : "Iniciando actualización...",
+  "endUpdateSnackBar" : "Ha terminado la actualización..."
 }

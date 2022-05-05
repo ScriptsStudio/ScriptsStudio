@@ -24,6 +24,7 @@
   "endInstallationSnackBar" : "Installation is complete",
   "listAppEmptySnackBar" : "No application to install",
   "installButton": "INSTALL",
+  "updateButton": "UPDATE",
   "snackBarUnableToEstablishConnection": "Unable to establish connection with the device",
   "titleAutomaticConnection": "Automatic connection",
   "titleManualConnection": "Manual connection",
@@ -50,5 +51,11 @@
   "updatesButton": "Updates",
   "userTextInput": "User",
   "passwordTextInput": "Password",
-  "portTextInput": "Port"
+  "portTextInput": "Port",
+  "updateSystemSwitch": "Upgrade operating system",
+  "updateRepositorySwitch": "Update repositories",
+  "updateSoftwareSwitch": "Upgrade software",
+  "titleUpdateScreen": "Updater",
+  "startUpdateSnackBar" : "Starting update...",
+  "endUpdateSnackBar" : "The update is finished..."
 }

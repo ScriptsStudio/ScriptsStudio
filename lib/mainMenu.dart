@@ -4,8 +4,8 @@ import 'package:scriptstudio/installerScreen.dart';
 import 'package:scriptstudio/uBloatwareScreen.dart';
 import 'globalVariables.dart';
 import 'languajes.dart';
-import 'listAppScreen.dart';
 import 'loginScreens.dart';
+import 'updateScreen.dart';
 
 class mainMenu extends StatefulWidget {
   const mainMenu({key}) : super(key: key);
@@ -17,30 +17,34 @@ class mainMenu extends StatefulWidget {
 class _mainMenuState extends State<mainMenu> {
   @override
   void initState() {
-    super.initState();
-    String command;
-    if (system == 'Windows') {
-      command =
-          "Invoke-WebRequest -Uri 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=b5df0cdb-28f5-4580-b3aa-d97527320714' -OutFile \$Env:USERPROFILE'\\ScriptsStudio.zip' ; Expand-Archive -Path \$Env:USERPROFILE'\\ScriptsStudio.zip' -DestinationPath \$Env:USERPROFILE'\\ScriptsStudio\\' ; attrib +h \$Env:USERPROFILE'\\ScriptsStudio' ; Remove-Item -Path \$Env:USERPROFILE'\\ScriptsStudio.zip'";
-      onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
-      categoriesButtons = {AppLocalizations.of(context)
-            .translate('installSoftwareButton'): installerScreen(),
-        AppLocalizations.of(context)
-            .translate('removeSoftwareButton'): uBloatwareScreen(),
-        'Upgrades': listAppScreen(),
-      };
-    }
-    if (system == 'Linux') {
-      command =
-          "echo ${passwordSSH} | sudo -S wget 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=b5df0cdb-28f5-4580-b3aa-d97527320714' -P \${HOME} --output-document ScriptsStudio.zip ; sudo unzip \${HOME}/ScriptsStudio.zip -d \${HOME}/ScriptsStudio/ ; mv \${HOME}/ScriptsStudio \${HOME}/.ScriptsStudio ; rm \${HOME}/ScriptsStudio.zip -f";
-      onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
-      categoriesButtons = {
-        AppLocalizations.of(context)
-            .translate('installSoftwareButton'): installerScreen(),
-       AppLocalizations.of(context)
-            .translate('updatesButton'): listAppScreen(),
-      };
-    }
+   super.initState();
+   Future.delayed(Duration.zero, () {
+     String command;
+     if (system == 'Windows') {
+       command =
+       "Invoke-WebRequest -Uri 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=b5df0cdb-28f5-4580-b3aa-d97527320714' -OutFile \$Env:USERPROFILE'\\ScriptsStudio.zip' ; Expand-Archive -Path \$Env:USERPROFILE'\\ScriptsStudio.zip' -DestinationPath \$Env:USERPROFILE'\\ScriptsStudio\\' ; attrib +h \$Env:USERPROFILE'\\ScriptsStudio' ; Remove-Item -Path \$Env:USERPROFILE'\\ScriptsStudio.zip'";
+       onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
+       categoriesButtons = {AppLocalizations.of(context)
+           .translate('installSoftwareButton'): installerScreen(),
+         AppLocalizations.of(context)
+             .translate('removeSoftwareButton'): uBloatwareScreen(),
+         AppLocalizations.of(context)
+             .translate('updatesButton'): updateScreen(),
+       };
+     }
+     if (system == 'Linux') {
+       command =
+       "echo ${passwordSSH} | sudo -S wget 'https://firebasestorage.googleapis.com/v0/b/scriptsstudio-axlfcxrppy.appspot.com/o/ScriptsStudio.zip?alt=media&token=b5df0cdb-28f5-4580-b3aa-d97527320714' -P \${HOME} --output-document ScriptsStudio.zip ; sudo unzip \${HOME}/ScriptsStudio.zip -d \${HOME}/ScriptsStudio/ ; mv \${HOME}/ScriptsStudio \${HOME}/.ScriptsStudio ; rm \${HOME}/ScriptsStudio.zip -f";
+       onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
+       categoriesButtons = {
+         AppLocalizations.of(context)
+             .translate('installSoftwareButton'): installerScreen(),
+         AppLocalizations.of(context)
+             .translate('updatesButton'): updateScreen(),
+       };
+     }
+   });
+
   }
 
   var categoriesButtons = {};

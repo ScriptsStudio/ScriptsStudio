@@ -50,5 +50,12 @@
   "updatesButton": "Actualitzacions",
   "userTextInput": "Usuari",
   "passwordTextInput": "Contrasenya",
-  "portTextInput": "Port"
+  "portTextInput": "Port",
+  "updateSystemSwitch": "Actualitzar sistema operatiu",
+  "updateRepositorySwitch": "Actualitzar repositoris",
+  "updateSoftwareSwitch": "Actualitzar el programari",
+  "updateButton": "ACTUALITZAR",
+  "titleUpdateScreen": "Actualitzador",
+  "startUpdateSnackBar" : "Iniciant actualització...",
+  "endUpdateSnackBar" : "Ha acabat l'actualització..."
 }

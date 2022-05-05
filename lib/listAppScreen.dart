@@ -65,21 +65,22 @@ class _listAppScreenState extends State<listAppScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Text(AppLocalizations.of(context).translate('selectedApplications'),
+                          padding: const EdgeInsets.only(
+                              left: 20.0, top: 10.0, right: 20.0, bottom: 40),
+                          child: Text(
+                              AppLocalizations.of(context)
+                                  .translate('selectedApplications'),
                               style: Theme.of(context).textTheme.subtitle1),
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height / 1.60,
                           child: new ListView.builder(
                               itemCount: applicationsSelected.length,
-                              itemBuilder:
-                                  (BuildContext context, int index) {
-                                String keyMap = applicationsSelected.keys
-                                    .elementAt(index);
+                              itemBuilder: (BuildContext context, int index) {
+                                String keyMap =
+                                    applicationsSelected.keys.elementAt(index);
                                 print(keyMap + 'mia');
-                                String valuesMap = applicationsSelected
-                                    .values
+                                String valuesMap = applicationsSelected.values
                                     .elementAt(index);
                                 print(valuesMap + 'nia');
                                 return Column(children: [
@@ -88,8 +89,7 @@ class _listAppScreenState extends State<listAppScreen> {
                                     child: Card(
                                       elevation: 5,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -109,17 +109,23 @@ class _listAppScreenState extends State<listAppScreen> {
                                                       Scaffold.of(context)
                                                           .showSnackBar(
                                                               SnackBar(
-                                                        content: Text(
-                                                            keyMap+AppLocalizations.of(context).translate('removeListSnackBar')),
+                                                        content: Text(keyMap +
+                                                            AppLocalizations.of(
+                                                                    context)
+                                                                .translate(
+                                                                    'removeListSnackBar')),
                                                         duration: Duration(
                                                             seconds: 3),
                                                       ));
                                                     },
                                                     child: Text(
-                                                      AppLocalizations.of(context).translate('deleteButton'),
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .translate(
+                                                              'deleteButton'),
                                                       style: TextStyle(
-                                                          color: Colors
-                                                              .redAccent),
+                                                          color:
+                                                              Colors.redAccent),
                                                     )),
                                               ],
                                             )
@@ -160,11 +166,14 @@ class _listAppScreenState extends State<listAppScreen> {
                                   }
                                   _scaffoldKey.currentState
                                       .showSnackBar(SnackBar(
-                                    content: Text(AppLocalizations.of(context).translate('startInstallationSnackBar')),
+                                    content: Text(AppLocalizations.of(context)
+                                        .translate(
+                                            'startInstallationSnackBar')),
                                     duration: Duration(seconds: 3),
                                   ));
-                                  await onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
-                                 // result = await client.execute(command) ?? 'Null result';
+                                  await onConnectToPCSSH(ipAddress, portSSH,
+                                      userSSH, passwordSSH, command);
+                                  // result = await client.execute(command) ?? 'Null result';
                                   print(result);
                                   setState(() {
                                     isLoading = false;
@@ -172,15 +181,16 @@ class _listAppScreenState extends State<listAppScreen> {
                                   });
                                   _scaffoldKey.currentState
                                       .showSnackBar(SnackBar(
-                                    content:
-                                        Text(AppLocalizations.of(context).translate('endInstallationSnackBar')),
+                                    content: Text(AppLocalizations.of(context)
+                                        .translate('endInstallationSnackBar')),
                                     duration: Duration(seconds: 3),
                                   ));
                                 } else {
                                   _scaffoldKey.currentState
                                       .showSnackBar(SnackBar(
-                                    content: Text(
-                                        AppLocalizations.of(context).translate('listAppEmptyInstallSnackBar')),
+                                    content: Text(AppLocalizations.of(context)
+                                        .translate(
+                                            'listAppEmptyInstallSnackBar')),
                                     duration: Duration(seconds: 3),
                                   ));
                                 }
@@ -193,7 +203,8 @@ class _listAppScreenState extends State<listAppScreen> {
                                         color: Colors.white,
                                         strokeWidth: 1.5,
                                       ))
-                                  :  Text(AppLocalizations.of(context).translate('installButton')),
+                                  : Text(AppLocalizations.of(context)
+                                      .translate('installButton')),
                             ),
                           ),
                         ),
