@@ -1,0 +1,12 @@
+List ipsList = [];
+List hostnameList = [];
+String ipAddress;
+int portSSH=22;
+String userSSH;
+String passwordSSH;
+String system;
+bool connected = false;
+var client;
+String result;
+var applicationsSelected = new Map();
+var bloatwareSelected = new Map();

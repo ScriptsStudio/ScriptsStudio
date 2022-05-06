@@ -10,11 +10,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  splashscreen:
+  # Add the dependency for the Firebase Core Flutter SDK
+  firebase_core: ^1.13.1
+  firebase_analytics: ^9.1.2
+  cloud_firestore: ^3.1.10
+  firebase_storage: ^10.2.9
   flutter_localizations:
     sdk: flutter
   libdsm: ^1.1.8
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.4
+  ssh2: ^2.2.3
+  flutter_svg: ^0.23.0+1
+  dart_ping: ^6.1.2
 
 dev_dependencies:
   flutter_test:
@@ -27,6 +34,7 @@ flutter:
     - i18n/en.json
     - i18n/es.json
     - i18n/ca.json
+    - assets/logo_ScriptsStudio.svg
 
   fonts:
     - family: Product Sans

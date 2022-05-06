@@ -1,4 +1,4 @@
-package com.example.scriptstudio;
+package com.axlfcxruppy.scriptstudio;
 
 import io.flutter.embedding.android.FlutterActivity;
 
