@@ -19,6 +19,7 @@ class _mainMenuState extends State<mainMenu> {
   void initState() {
    super.initState();
    Future.delayed(Duration.zero, () {
+     setState(() {
      String command;
      if (system == 'Windows') {
        command =
@@ -42,7 +43,9 @@ class _mainMenuState extends State<mainMenu> {
          AppLocalizations.of(context)
              .translate('updatesButton'): updateScreen(),
        };
+
      }
+     });
    });
 
   }
@@ -110,7 +113,7 @@ class _mainMenuState extends State<mainMenu> {
                     if (system == 'Linux') {
                       String command;
                       command =
-                          "echo ${passwordSSH} | sudo -S rm -R \${HOME}/ScriptsStudio";
+                          "echo ${passwordSSH} | sudo -S rm -R \${HOME}/*ScriptsStudio";
                       onConnectToPCSSH(
                           ipAddress, portSSH, userSSH, passwordSSH, command);
                     }
@@ -151,7 +154,7 @@ class _mainMenuState extends State<mainMenu> {
                 if (system == 'Linux') {
                   String command;
                   command =
-                      "echo ${passwordSSH} | sudo -S rm -R \${HOME}/ScriptsStudio";
+                      "echo ${passwordSSH} | sudo -S rm -R \${HOME}/*ScriptsStudio";
                   onConnectToPCSSH(
                       ipAddress, portSSH, userSSH, passwordSSH, command);
                 }

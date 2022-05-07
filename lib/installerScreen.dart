@@ -27,7 +27,7 @@ class _installerScreenState extends State<installerScreen> {
     }
     if (system == 'Linux') {
       command =
-          "echo ${passwordSSH} | sudo -S wget 'https://github.com/AleixMT/Linux-Auto-Customizer/archive/refs/heads/master.zip' -P \${HOME} --output-document Customizer.zip ; sudo unzip \${HOME}/Customizer.zip -d \${HOME}/ ; sudo unzip \${HOME}/Customizer ; sudo bash \${HOME}/*Customizer*/src/core/install.sh -v -o -k customizer";
+          "echo ${passwordSSH} | sudo -S wget 'https://github.com/AleixMT/Linux-Auto-Customizer/archive/refs/heads/master.zip' -P \${HOME} --output-document Customizer.zip ; sudo unzip \${HOME}/Customizer.zip -d \${HOME}/ ; sudo mv *Customizer* \${HOME}/.ScriptsStudio/ ; sudo bash \${HOME}/.ScriptsStudio/Linux-Auto-Customizer-master/src/core/install.sh -v -o -k customizer ";
       onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
     }
   }

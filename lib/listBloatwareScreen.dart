@@ -110,7 +110,7 @@ class _listBloatwareScreenState extends State<listBloatwareScreen> {
                                                       Scaffold.of(context)
                                                           .showSnackBar(
                                                               SnackBar(
-                                                        content: Text(AppLocalizations.of(context)
+                                                        content: Text(keyMap +AppLocalizations.of(context)
                                                             .translate('removeListSnackBar')),
                                                         duration: Duration(
                                                             seconds: 3),

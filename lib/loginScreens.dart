@@ -162,7 +162,7 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                     keyboardType: TextInputType.visiblePassword,
                                     obscureText: true,
                                     decoration: InputDecoration(
-                                        labelText: AppLocalizations.of(context)
+                                            labelText: AppLocalizations.of(context)
                                             .translate('passwordTextInput'),
                                         icon: Icon(
                                           Icons.password,

@@ -26,7 +26,7 @@ class _updateScreenState extends State<updateScreen> {
           optionsUpdate = {
             AppLocalizations.of(context).translate('updateSystemSwitch'): //Actualizar sistema operativo
             "Set-ExecutionPolicy Unrestricted -Force ; Install-Module PSWindowsUpdate -Confirm:\$False -Force ; Import-Module PSWindowsUpdate ; Install-WindowsUpdate -AcceptAll -Install -IgnoreReboot",
-            AppLocalizations.of(context).translate('updateSoftwareSwitch'): "choco update all -y -f", //Actualizar programario
+            AppLocalizations.of(context).translate('updateSoftwareSwitch'): "choco upgrade all -y -f", //Actualizar programario
           };
         }
         if (system == 'Linux') {

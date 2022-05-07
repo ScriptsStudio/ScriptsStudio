@@ -95,7 +95,7 @@ class _uBloatwareScreenState extends State<uBloatwareScreen> {
                                     print(bloatwareSelected);
 
                                     Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text(AppLocalizations.of(context).translate('snackBarAddAppList')),
+                                      content: Text(data['nameDisplay']+AppLocalizations.of(context).translate('snackBarAddAppList')),
                                       duration: Duration(seconds: 2),
                                     ));
                                   },
