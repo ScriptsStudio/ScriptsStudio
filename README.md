@@ -26,16 +26,47 @@ To update.
 
 
 ## 🚀 Usage 
-Install the App and its dependencies, introduce your login credentials of the targetted device and proceed to select the applications to be installed/uninstalled or select if you want to update the system.
+Install the App and its dependencies,  and proceed to select the applications to be installed/uninstalled or select if you want to update the system.
 
 #### Auto-Login Screen
+Introduce your login credentials of the targetted device.
 <p align="left">
 <img src="https://github.com/ScriptsStudio/ScriptsStudio/blob/master/assets/LoginScreenAuto.gif" width="158" height="320"/>
 </p>
 
 #### Manual Login Screen
+Introduce SSH port and IP as well as login credentials.
 <p align="left">
 <img src="https://github.com/ScriptsStudio/ScriptsStudio/blob/master/assets/LoginScreenManual.gif" width="158" height="320"/>
+</p>
+
+#### Main Screen
+Select desired operation.
+<p align="left">
+<img src="https://github.com/ScriptsStudio/ScriptsStudio/blob/master/assets/MainScreen.gif" width="158" height="320"/>
+</p>
+
+#### Install
+Select desired applications to be installed.
+<p align="left">
+<img src="https://github.com/ScriptsStudio/ScriptsStudio/blob/master/assets/InstallerScreen.gif" width="158" height="320"/>
+</p>
+
+Apply the installation of the selected programs in the list (Items can be removed from the list before installation proceeds)
+<p align="left">
+<img src="https://github.com/ScriptsStudio/ScriptsStudio/blob/master/assets/InstallerScreen2.gif" width="158" height="320"/>
+</p>
+
+#### Uninstall
+Remove installed applications.
+<p align="left">
+<img src="https://github.com/ScriptsStudio/ScriptsStudio/blob/master/assets/BloatwareScreen.gif" width="158" height="320"/>
+</p>
+
+#### Update
+Update the system.
+<p align="left">
+<img src="https://github.com/ScriptsStudio/ScriptsStudio/blob/master/assets/UpdateScreen.gif" width="158" height="320"/>
 </p>
 
 
