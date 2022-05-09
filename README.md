@@ -8,7 +8,7 @@ This installations or features include [Linux-Auto-Customizer](https://github.co
 </p>
 
 # ⌨️ Description
-This App stablishes an SSH connection between devices to make easier the installation/uninstallation of our favorite appliations in our computer using the phone to select-diselect the apps we want to use in our device.
+This App stablishes an SSH connection between the devices in our network to make easier the installation/uninstallation of the appliations in our computer using the phone to select-diselect the apps we want to use or delete from our device.
 It uses Linux-Auto-Customizer as backend for GNU/Linux unattended installations of features.
 <p align="center">
 <img src="https://i.imgur.com/N7Hp7H1.png" width="75" height="75"/>
