@@ -60,7 +60,7 @@ If you want to install one-click custom applications with of your mobile phone d
 ## [⭐ Give us a star in GitHub!](https://github.com/ScriptsStudio/ScriptsStudio/stargazers)
 
 * 📢Tell others about this project
-* 😄Thank you for your attention, enjoy installing apps in GNU/Linux and Windows systems and don't doubt contacting our team with any trouble 📫.
+* 😄Thank you for your attention, enjoy installing apps in GNU/Linux and Windows systems using our app and don't doubt contacting our team with any trouble!! 📫.
 <br></br>
 
 **Best regards** :)
