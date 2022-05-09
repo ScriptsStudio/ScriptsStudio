@@ -1,6 +1,4 @@
 - LINUX SPEC IDEAS
-	- [x] Bulk rename function re()
-	- [x] Add/Remove repository function
 	- [x] ssh access to multiple clients at once by any host
 	- [~] IP host pool
 	- [~] IP client pool
