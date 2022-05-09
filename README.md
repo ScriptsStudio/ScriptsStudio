@@ -28,9 +28,7 @@ To update.
 ## 🚀 Usage 
 Install the App and its dependencies, introduce your login credentials of the targetted device and proceed to select the applications to be installed/uninstalled or select if you want to update the system.
 
-<p align="left">
-<img src="https://i.imgur.com/zW8hqtj.gif" width="240" height="320"/>
-</p>
+![](https://i.imgur.com/zW8hqtj.gif)
 
 #### 🔧 Full installation / uninstallation 
 Install the application using an .apk file.
