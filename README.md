@@ -28,7 +28,7 @@ To update.
 ## 🚀 Usage 
 Install the App and its dependencies, introduce your login credentials of the targetted device and proceed to select the applications to be installed/uninstalled or select if you want to update the system.
 
-![](https://i.imgur.com/zW8hqtj.gif)
+![](https://github.com/ScriptsStudio/ScriptsStudio/assets/LoginScreenAuto.gif)
 
 #### 🔧 Full installation / uninstallation 
 Install the application using an .apk file.
@@ -38,7 +38,6 @@ All features available follow a common behaviour:
 * To install
 * To uninstall
 * To update
-
 
 ## 📖 Motivation 
 If you want to install one-click custom applications with of your mobile phone device onto other devices (GNU/Linux or Windows) you are probably going to find this apps useful for administrative purpuses. Anyone that uses a lot of software, this tool can save you a lot of time.
