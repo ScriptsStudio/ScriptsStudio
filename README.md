@@ -33,7 +33,13 @@ Install the App and its dependencies, introduce your login credentials of the ta
 <img src="https://github.com/ScriptsStudio/ScriptsStudio/blob/master/assets/LoginScreenAuto.gif" width="158" height="320"/>
 </p>
 
-#### 🔧 Full installation / uninstallation 
+#### Manual Login Screen
+<p align="left">
+<img src="https://github.com/ScriptsStudio/ScriptsStudio/blob/master/assets/LoginScreenManual.gif" width="158" height="320"/>
+</p>
+
+
+## 🔧 Full installation / uninstallation 
 Install the application using an .apk file.
 
 ## 📌 Capabilities 
