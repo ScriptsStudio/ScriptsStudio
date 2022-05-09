@@ -83,8 +83,8 @@ All features available follow a common behaviour:
 If you want to install one-click custom applications with of your mobile phone device onto other devices (GNU/Linux or Windows) you are probably going to find this apps useful for administrative purpuses. Anyone that uses a lot of software, this tool can save you a lot of time.
 
 ## ✒️ Credits 
-* Author & Maintainer of ScripsStudio: **David García** - [XRuppy](https://github.com/XRuppy) 
-* Maintainer & Tester of ScriptsStudio and Tester & Feature requester of Customizer: **Axel Fernandez** - [Axlfc](https://github.com/Axlfc)
+* Author & Maintainer of ScriptsStudio: **David García** - [XRuppy](https://github.com/XRuppy) 
+* Maintainer, Tester and Author of ScriptsStudio and Tester & Feature requester of Customizer: **Axel Fernandez** - [Axlfc](https://github.com/Axlfc)
 * Author & Maintainer of Customizer: **Aleix Mariné** - [AleixMT](https://github.com/AleixMT)
 
 ## 🖇️ Contributing
