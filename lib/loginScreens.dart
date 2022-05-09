@@ -162,7 +162,7 @@ class _AutomaticConnectionScreenState extends State<AutomaticConnectionScreen> {
                                     keyboardType: TextInputType.visiblePassword,
                                     obscureText: true,
                                     decoration: InputDecoration(
-                                        labelText: AppLocalizations.of(context)
+                                            labelText: AppLocalizations.of(context)
                                             .translate('passwordTextInput'),
                                         icon: Icon(
                                           Icons.password,
@@ -538,7 +538,6 @@ Future<void> onConnectToPCSSH(String ipAddressController, int portController,
       connected = false;
     }
     result = await client.disconnect() ?? 'Desconectado';
-    //connected = false;
     print(result);
   } on PlatformException catch (e) {
     String errorMessage = 'Error: ${e.code}\nError Message: ${e.message}';
@@ -561,7 +560,6 @@ void whichSystemIsForTheTTL(String ip) {
     }
     if (ttl != null) {
       if (ttl >= 126 && ttl <= 128) {
-        print('Is Windows');
         system = 'Windows';
       } else if (ttl >= 63 && ttl <= 65) {
         print('Is Linux');
@@ -589,9 +587,7 @@ void _startDiscovery() async {
 void _discoveryListener(String json) async {
   print('Discovery : $json');
   Device device = Device.fromJson(jsonDecode(cleanerJSON(json)));
-  print(device.name);
   hostnameListDraft.add(device.name);
-  print(device.address);
   ipsListDraft.add(device.address);
   for (var i = 0; i < ipsListDraft.length; i++) {
     confirmSSHOn(ipsListDraft[i], 22, hostnameListDraft[i]);

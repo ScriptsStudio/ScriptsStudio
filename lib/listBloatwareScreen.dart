@@ -78,11 +78,9 @@ class _listBloatwareScreenState extends State<listBloatwareScreen> {
                                   (BuildContext context, int index) {
                                 String keyMap = bloatwareSelected.keys
                                     .elementAt(index);
-                                print(keyMap + 'mia');
                                 String valuesMap = bloatwareSelected
                                     .values
                                     .elementAt(index);
-                                print(valuesMap + 'nia');
                                 return Column(children: [
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -110,7 +108,7 @@ class _listBloatwareScreenState extends State<listBloatwareScreen> {
                                                       Scaffold.of(context)
                                                           .showSnackBar(
                                                               SnackBar(
-                                                        content: Text(AppLocalizations.of(context)
+                                                        content: Text(keyMap +AppLocalizations.of(context)
                                                             .translate('removeListSnackBar')),
                                                         duration: Duration(
                                                             seconds: 3),
@@ -166,8 +164,6 @@ class _listBloatwareScreenState extends State<listBloatwareScreen> {
                                     duration: Duration(seconds: 3),
                                   ));
                                   await onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, command);
-                                 // result = await client.execute(command) ?? 'Null result';
-                                  print(result);
                                   setState(() {
                                     isLoading = false;
                                     bloatwareSelected.clear();
