@@ -79,10 +79,8 @@ class _listAppScreenState extends State<listAppScreen> {
                               itemBuilder: (BuildContext context, int index) {
                                 String keyMap =
                                     applicationsSelected.keys.elementAt(index);
-                                print(keyMap + 'mia');
                                 String valuesMap = applicationsSelected.values
                                     .elementAt(index);
-                                print(valuesMap + 'nia');
                                 return Column(children: [
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -173,8 +171,6 @@ class _listAppScreenState extends State<listAppScreen> {
                                   ));
                                   await onConnectToPCSSH(ipAddress, portSSH,
                                       userSSH, passwordSSH, command);
-                                  // result = await client.execute(command) ?? 'Null result';
-                                  print(result);
                                   setState(() {
                                     isLoading = false;
                                     applicationsSelected.clear();
