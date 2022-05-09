@@ -29,9 +29,7 @@ To update.
 Install the App and its dependencies, introduce your login credentials of the targetted device and proceed to select the applications to be installed/uninstalled or select if you want to update the system.
 
 <p align="left">
-<video width="320" height="240" controls>
-  <source src="https://i.imgur.com/o32v8nt.mp4" type="video/mp4">
-</video>
+<img src="https://i.imgur.com/zW8hqtj.gif" width="240" height="320"/>
 </p>
 
 #### 🔧 Full installation / uninstallation 
