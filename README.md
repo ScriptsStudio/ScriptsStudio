@@ -1,7 +1,7 @@
 # ✨ ScriptsStudio ✨
 ScriptsStudio is an App to automatize installations and uninstallations remotely with your phone. 
 Used languages include: Dart, Python, Bash and PowerShell.
-This installations or features include Linux-Auto-Customizer's +250 features and some hard-coded Windows programs, ready to be installed. 🌱
+This installations or features include [Linux-Auto-Customizer](https://github.com/AleixMT/Linux-Auto-Customizer)'s +250 features and some hard-coded Windows programs, ready to be installed. 🌱
 
 <p align="center">
 <img src="https://i.imgur.com/5oLIvF1.png" width="250" height="290"/>
