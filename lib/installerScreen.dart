@@ -71,7 +71,6 @@ class _installerScreenState extends State<installerScreen> {
                   itemCount: docs.length,
                   itemBuilder: (_, i) {
                     Map<String, dynamic> data = docs[i].data();
-                    print(data);
                     return Container(
                         width: 150,
                         child: Card(
@@ -111,11 +110,6 @@ class _installerScreenState extends State<installerScreen> {
                                       style:
                                           Theme.of(context).textTheme.button),
                                   onPressed: () {
-                                    print(data['nameDisplay']);
-                                    applicationsSelected[data['nameDisplay']] =
-                                        data['name' + system];
-                                    print(applicationsSelected);
-
                                     Scaffold.of(context).showSnackBar(SnackBar(
                                       content: Text(data['nameDisplay'] +
                                           AppLocalizations.of(context)

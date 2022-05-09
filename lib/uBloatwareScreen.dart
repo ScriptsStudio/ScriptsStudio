@@ -51,7 +51,6 @@ class _uBloatwareScreenState extends State<uBloatwareScreen> {
                   itemCount: docs.length,
                   itemBuilder: (_, i) {
                     Map<String, dynamic> data = docs[i].data();
-                    print(data);
                     return Container(
                         width: 150,
                         child: Card(
@@ -89,11 +88,6 @@ class _uBloatwareScreenState extends State<uBloatwareScreen> {
                                       style:
                                           Theme.of(context).textTheme.button),
                                   onPressed: () {
-                                    print(data['nameDisplay']);
-                                    bloatwareSelected[data['nameDisplay']] =
-                                        data['nameSystem'];
-                                    print(bloatwareSelected);
-
                                     Scaffold.of(context).showSnackBar(SnackBar(
                                       content: Text(data['nameDisplay']+AppLocalizations.of(context).translate('snackBarAddAppList')),
                                       duration: Duration(seconds: 2),

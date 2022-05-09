@@ -178,9 +178,7 @@ class _updateScreenState extends State<updateScreen> {
                                     content: Text(AppLocalizations.of(context).translate('startUpdateSnackBar')),
                                     duration: Duration(seconds: 3),
                                   ));
-                                  print('COMMAND EXEC'+ commandFinal);
                                   await onConnectToPCSSH(ipAddress, portSSH, userSSH, passwordSSH, commandFinal);
-                                  print(result);
                                   setState(() {
                                     isLoading = false;
                                     applicationsSelected.clear();
