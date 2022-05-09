@@ -28,7 +28,9 @@ To update.
 ## 🚀 Usage 
 Install the App and its dependencies, introduce your login credentials of the targetted device and proceed to select the applications to be installed/uninstalled or select if you want to update the system.
 
-![](https://github.com/ScriptsStudio/ScriptsStudio/blob/master/assets/LoginScreenAuto.gif)
+<p align="center">
+<img src="https://github.com/ScriptsStudio/ScriptsStudio/blob/master/assets/LoginScreenAuto.gif" width="320" height="158"/>
+</p>
 
 #### 🔧 Full installation / uninstallation 
 Install the application using an .apk file.
