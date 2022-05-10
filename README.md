@@ -11,11 +11,11 @@ This installations or features include [Linux-Auto-Customizer](https://github.co
 This App stablishes an SSH connection between the devices in our network to make easier the installation/uninstallation of the appliations in our computer using the phone to select-diselect the apps we want to use or delete from our device.
 It uses Linux-Auto-Customizer as backend for GNU/Linux unattended installations of features.
 <p align="center">
-<img src="https://i.imgur.com/N7Hp7H1.png" width="75" height="75"/>
+<a href="https://github.com/AleixMT/Linux-Auto-Customizer"><img src="https://i.imgur.com/N7Hp7H1.png" width="75" height="75"/></a>
 </p>
 
-These features available include GNU software, programming languages, 
-IDEs, text editors, media players, games, Internet applications, file templates, wallpapers, 
+These features available include GNU software, programming languages,
+IDEs, text editors, media players, games, Internet applications, file templates, wallpapers,
 environment aliases, environment functions, terminal personalization...
 
 We alse have a set of our favorite applications in Windows to be able and we manage them via Chocolatey or winget (Windows' package manager).
